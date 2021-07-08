@@ -2,8 +2,8 @@
 title: "Test & Roll Vignette"
 author: "Maxine Fang"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ## 1. Introduction
@@ -138,9 +138,6 @@ With symmetric normal priors, the error rate is calculated using $\frac{1}{4} - 
 ## 3. Usage for K-arm tests (with simulation)
 ### 3.1 Computing profit-maximizing test sizes (K-arm tests) with simulation
 test_size_nn_sim() #asymmetric case not supported atm
-```{r}
-test_size_nn_sim()
-```
 
 <br/>
 one_rep_test_size() (utility function)
