@@ -24,3 +24,6 @@ recommended sample sizes as a vector
 \description{
 Computes the recommended sample sizes for a null hypothesis test
 }
+\examples{
+test_size_nht(s=c(.5,.10), d=.2, conf=0.95, power=0.8, N=NULL)
+}

@@ -19,9 +19,12 @@ one_rep_test_size(n_vals, N, s, mu, sigma, K)
 \item{K}{number of arms (treatments)}
 }
 \value{
-
+A 2-column matrix with values of n in the first column and profits in the second column
 }
 \description{
 Utility function used in test_size_nn_sim() to simulate one set of potential outcomes
 Returns profits for all possible equal sample sizes
+}
+\examples{
+one_rep_test_size(c(20,50,100), N=1000, s=c(10,10,10), mu= 20, sigma=10, K=2)
 }

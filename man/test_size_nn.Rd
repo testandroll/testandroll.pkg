@@ -13,11 +13,14 @@ test_size_nn(N, s, mu, sigma)
 
 \item{mu}{vector of length 2 containing the means of the prior on the mean response}
 
-\item{sigma}{vector of length 2 containing the standard deviations of the prior on the mean response}
+\item{sigma}{}
 }
 \value{
-sample sizes n
+a vector containing the sample sizes
 }
 \description{
 Computes the profit-maximizing test size for test & roll with 2 arms
+}
+\examples{
+test_size_nn(N=10000, s=.1, mu=c(.7,.7), sigma=c(.05,.05))
 }

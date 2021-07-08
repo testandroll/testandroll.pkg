@@ -19,3 +19,6 @@ per-customer profit with perfect information
 Computes per-customer profit with perfect information
 Where response is normal with symmetric normal priors
 }
+\examples{
+profit_perfect_nn(mu=.7, sigma=.02)
+}

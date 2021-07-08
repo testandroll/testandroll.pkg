@@ -12,7 +12,7 @@ library(doParallel)
 #' @return recommended sample sizes as a vector
 #' @export
 #'
-#' @examples
+#' @examples test_size_nht(s=c(.5,.10), d=.2, conf=0.95, power=0.8, N=NULL)
 test_size_nht <- function(s, d, conf=0.95, power=0.8, N=NULL) {
   # computes the recommended sample size for a null hypothesis test
   # comparing two treatments with finite population correction
@@ -53,7 +53,7 @@ test_size_nht <- function(s, d, conf=0.95, power=0.8, N=NULL) {
 #'
 #' @param n vector of length 2 containing the sample sizes
 #' @param N size of deployment population
-#' @param s vector of length 2 containing the standard deviations of the outcome
+#' @param s vector of length 2 containing the known standard deviations of the outcome
 #' @param mu vector of length 2 containing the means of the prior on the mean response
 #' @param sigma vector of length 2 containing the standard deviations of the prior on the mean response
 #' @param log_n whether or not log(n) is an input rather than n (to avoid negative solutions), 'TRUE' or 'FALSE'
@@ -61,7 +61,7 @@ test_size_nht <- function(s, d, conf=0.95, power=0.8, N=NULL) {
 #' @return per-customer profit for N customers
 #' @export
 #'
-#' @examples
+#' @examples profit_nn(n=100, N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
 profit_nn <- function(n, N, s, mu, sigma, log_n=FALSE) {
   # computes the per-customer profit for test & roll with 2 arms
   # where response is normal with (possibly asymmetric) normal priors
@@ -94,12 +94,12 @@ profit_nn <- function(n, N, s, mu, sigma, log_n=FALSE) {
 #' @param N size of deployment population
 #' @param s vector of length 2 containing the standard deviations of the outcome
 #' @param mu vector of length 2 containing the means of the prior on the mean response
-#' @param sigma vector of length 2 containing the standard deviations of the prior on the mean response
+#' @param sigma
 #'
-#' @return sample sizes n
+#' @return a vector containing the sample sizes
 #' @export
 #'
-#' @examples
+#' @examples test_size_nn(N=10000, s=.1, mu=c(.7,.7), sigma=c(.05,.05))
 test_size_nn <- function(N, s, mu, sigma) {
   # computes the profit-maximizing test size for a 2-armed Test & Roll
   # where response is normal with normal priors (possibly asymmetric)
@@ -129,7 +129,7 @@ test_size_nn <- function(N, s, mu, sigma) {
 #' @return per-customer profit with perfect information
 #' @export
 #'
-#' @examples
+#' @examples profit_perfect_nn(mu=.7, sigma=.02)
 profit_perfect_nn <- function(mu, sigma){
   # computes the per-customer profit with perfect information
   # where response is normal with symmetric normal priors
@@ -138,16 +138,16 @@ profit_perfect_nn <- function(mu, sigma){
   (mu + sigma/sqrt(pi)) #eq (13)
 }
 
-#' Computes the rate of incorrect deployments
+#' Computes the rate of incorrect deployments with symmetric normal priors
 #' Where response is normal with symmetric normal priors
 #' @param n vector of length 2 containing the sample sizes
-#' @param s vector of length 2 containing the standard deviations of the outcome
-#' @param sigma vector of length 2 containing the standard deviations of the prior on the mean response
+#' @param s vector of length 1 (symmetrical) containing the standard deviations of the outcome
+#' @param sigma vector of length 1 (symmetrical) containing the standard deviations of the prior on the mean response
 #'
 #' @return rate of incorrect deployments
 #' @export
 #'
-#' @examples
+#' @examples error_rate_nn(n=100, s=.5, sigma=.2)
 error_rate_nn <- function(n, s, sigma) {
   # computes the rate of incorrect deployments
   # where response is normal with symmetric normal priors
@@ -157,6 +157,15 @@ error_rate_nn <- function(n, s, sigma) {
   1/2 - 2*atan( sqrt(2)*sigma*sqrt(n[1]*n[2] / (n[1] + n[2]) ) / s ) / (2*pi) #eq (12)
 }
 
+#' Plots prior densities against mean response (profit per customer)
+#'
+#' @param mu means of the prior on the mean response
+#' @param sigma standard deviations of the prior on the mean response
+#'
+#' @return graph plotting prior density vs. profit per customer
+#' @export
+#'
+#' @examples #plot_prior_mean_resp_nn(mu=c(5,10), sigma=c(10,10))
 plot_prior_mean_resp_nn <- function(mu, sigma) {
   if (length(mu)==1) {mu <- rep(mu, 2); sigma <- rep(sigma,2)}
   xlim <- c(min(mu[1] - 4*sigma[1], mu[2] - 4*sigma[2]),
@@ -170,6 +179,16 @@ plot_prior_mean_resp_nn <- function(mu, sigma) {
   legend("topright", legend=c("Treatment 1", "Treatment 2"), col=c("red", "blue"), lty=c(1,3), bty="n")
 }
 
+#' Plots prior densities against response (profit per customer)
+#'
+#' @param s known standard deviations of the response
+#' @param mu means of the prior on the mean response
+#' @param sigma standard deviations of the prior on the mean response
+#'
+#' @return graph plotting prior density vs. profit per customer
+#' @export
+#'
+#' @examples plot_prior_resp_nn(s=c(10,20), mu=c(5,10), sigma=c(10,10))
 plot_prior_resp_nn <- function(s, mu, sigma) {
   if (length(mu)==1) {mu <- rep(mu, 2); sigma <- rep(sigma,2); s <- rep(s, 2)}
   sigma_resp1 <- sqrt(sigma[1]^2 + s[1]^2)
@@ -185,6 +204,16 @@ plot_prior_resp_nn <- function(s, mu, sigma) {
   legend("topright", legend=c("Treatment 1", "Treatment 2"), col=c("red", "blue"), lty=c(1,3), bty="n")
 }
 
+#' Plots prior densities against treatment effect (difference in profit per customer)
+#'
+#' @param mu means of the prior on the mean response
+#' @param sigma standard deviations of the prior on the mean response
+#' @param abs whether or not to take the absolute difference, 'TRUE' or 'FALSE'
+#'
+#' @return graph plotting prior density vs. difference in profit per customer
+#' @export
+#'
+#' @examples plot_prior_effect_nn(mu=c(5,10), sigma=c(10,10), abs=FALSE)
 plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
   if (length(mu)==1) {mu <- rep(mu, 2); sigma <- rep(sigma,2)}
   sigma_effect <- sqrt(sigma[1]^2 + sigma[2]^2)
@@ -219,7 +248,7 @@ plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
 #' @return The profits and error rates under perfect information, test & roll, and Thomson sampling
 #' @export
 #'
-#' @examples
+#' @examples one_rep_profit(n=100, N=1000, s=20, mu=20, sigma=10, K=2, TS=FALSE)
 one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
   # utility function used in profit_nn_sim() to simulate one set of potential outcomes
   m <- rnorm(K, mu, sigma) # draw a true mean for the arm
@@ -257,8 +286,10 @@ one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
     thom_samp <- 0
     for (k in 1:K) thom_samp <- thom_samp + sum(y[1:n[k], k])
   }
+  #return(c(perfect_info=perfect_info, test_roll=test_roll, thom_samp=thom_samp,
+           #error = error, deploy_1=deploy_1))
   return(c(perfect_info=perfect_info, test_roll=test_roll, thom_samp=thom_samp,
-           error = error, deploy_1=deploy_1))
+           error = error))
 }
 
 #' Computes the per-customer profit for test & roll with K arms
@@ -273,10 +304,10 @@ one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
 #' @param TS whether or not to run Thomson sampling, 'TRUE' or 'FALSE'
 #' @param R number of simulation replications
 #'
-#' @return
+#' @return A list containing the profit, regret, and error rates
 #' @export
 #'
-#' @examples
+#' @examples profit_nn_sim(n=100, N=1000, s=10, mu=10, sigma=10, K=2, TS=FALSE, R=1000)
 profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
   # computes the per-customer profit for test & roll with K arms
   # where response is normal with (asymmetric) normal priors
@@ -295,7 +326,7 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
   stopifnot(N > K)
   reps <- foreach(i=1:R) %dopar% one_rep_profit(n, N, s, mu, sigma, K, TS)
   reps <- as.data.frame(do.call(rbind, reps))
-  profit <- apply(reps[,1:3], 2, mean)
+  profit <- apply(reps[,1:3], 2, mean) #column 1 (perfect info), column 2 (test&roll), column 3 (thomson sampling)
   profit <- rbind(exp_profit=profit,
                   apply(reps[,1:3], 2, quantile, probs=c(0.05, 0.95), na.rm=TRUE))
   profit <- profit / N
@@ -320,10 +351,10 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
 #' @param sigma standard deviations of the priors on the mean response
 #' @param K number of arms (treatments)
 #'
-#' @return
+#' @return A 2-column matrix with values of n in the first column and profits in the second column
 #' @export
 #'
-#' @examples
+#' @examples one_rep_test_size(c(20,50,100), N=1000, s=c(10,10,10), mu= 20, sigma=10, K=2)
 one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
   # utility function used in test_size_nn_sim() to simulate one set of potential outcomes
   # and profits for all possible equal sample sizes
@@ -351,7 +382,7 @@ one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
 #'
 #' @param N deployment population
 #' @param s standard deviations of the response (length 1(symmetric) or K)
-#' @param mu vector of length K containing means of the prior on the mean response
+#' @param mu vector of length K containing means of the priors on the mean response
 #' @param sigma vector of length K containing the standard deviations of the priors on the mean response
 #' @param K number of arms (treatments)
 #' @param R number of simulation replications

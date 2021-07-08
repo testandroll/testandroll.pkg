@@ -24,8 +24,11 @@ profit_nn_sim(n, N, s, mu, sigma, K = 2, TS = FALSE, R = 1000)
 \item{R}{number of simulation replications}
 }
 \value{
-
+A list containing the profit, regret, and error rates
 }
 \description{
 Computes the per-customer profit for test & roll with K arms
+}
+\examples{
+profit_nn_sim(n=100, N=1000, s=10, mu=10, sigma=10, K=2, TS=FALSE, R=1000)
 }

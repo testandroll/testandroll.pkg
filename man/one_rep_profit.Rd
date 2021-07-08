@@ -31,3 +31,6 @@ Utility function used in function 'profit_nn_sim()' to simulate one set of poten
 Draws a true mean for each arm and generates N observations from each arm
 Returns profits and error rates under perfect information, test & roll, and Thomson sampling
 }
+\examples{
+one_rep_profit(n=100, N=1000, s=20, mu=20, sigma=10, K=2, TS=FALSE)
+}

@@ -3,6 +3,8 @@
 ## Introduction
 Summary of purpose of test and roll + summary of functions
 
+## Computing priors from data
+
 ## Computing profit-maximizing test sizes (2-arm tests)
 test_size_nn
 test_size_nht
@@ -13,7 +15,7 @@ profit_perfect_nn
 error_rate_nn
 
 ## Computing profit-maximizing test sizes (K-arm tests) with simulation
-test_size_nn_sim
+test_size_nn_sim #asymmetric case not supported atm
 one_rep_test_size (utility function)
 
 ## Computing profits and errors under different testing methods (K-arm tests) with simulation

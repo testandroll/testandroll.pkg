@@ -11,7 +11,7 @@ test_size_nn_sim(N, s, mu, sigma, K = 2, R = 1000)
 
 \item{s}{standard deviations of the response (length 1(symmetric) or K)}
 
-\item{mu}{vector of length K containing means of the prior on the mean response}
+\item{mu}{vector of length K containing means of the priors on the mean response}
 
 \item{sigma}{vector of length K containing the standard deviations of the priors on the mean response}
 

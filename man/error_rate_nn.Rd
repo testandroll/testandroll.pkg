@@ -21,3 +21,6 @@ rate of incorrect deployments
 Computes the rate of incorrect deployments
 Where response is normal with symmetric normal priors
 }
+\examples{
+error_rate_nn(n=100, s=20, sigma=10)
+}

@@ -11,7 +11,7 @@ profit_nn(n, N, s, mu, sigma, log_n = FALSE)
 
 \item{N}{size of deployment population}
 
-\item{s}{vector of length 2 containing the standard deviations of the outcome}
+\item{s}{vector of length 2 containing the known standard deviations of the outcome}
 
 \item{mu}{vector of length 2 containing the means of the prior on the mean response}
 
@@ -24,4 +24,7 @@ per-customer profit for N customers
 }
 \description{
 Computes the per-customer profit for test & roll with 2 arms
+}
+\examples{
+profit_nn(n=100, N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
 }

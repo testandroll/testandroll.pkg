@@ -1,0 +1,24 @@
+{
+    "id": "ADEE8360",
+    "path": "~/GitHub/profit_max_experiments/nn_testing.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1625772945932.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "cursorPosition": "32,44",
+        "scrollLine": "15"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1623817648,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1623817648,
+    "read_only": false,
+    "read_only_alternatives": []
+}
