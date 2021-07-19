@@ -27,4 +27,5 @@ Computes the per-customer profit for test & roll with 2 arms
 }
 \examples{
 profit_nn(n=100, N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
+profit_nn(n=c(100,200), N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
 }

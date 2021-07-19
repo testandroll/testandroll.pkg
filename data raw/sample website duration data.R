@@ -1,0 +1,20 @@
+January <- rnorm(1000, mean=.6, sd=.3)
+February <- rnorm(1000, mean=.4, sd=.2)
+March <- rnorm(1000, mean=.5, sd=.2)
+April <- rnorm(1000, mean=.6, sd=.2)
+May <- rnorm(1000, mean=.6, sd=.3)
+June <- rnorm(1000, mean=.6, sd=.3)
+July <- rnorm(1000, mean=.6, sd=.3)
+August <- rnorm(1000, mean=.5, sd=.2)
+September <- rnorm(1000, mean=.4, sd=.2)
+October <- rnorm(1000, mean=.5, sd=.2)
+November <- rnorm(1000, mean=.5, sd=.2)
+December <- rnorm(1000, mean=.6, sd=.3)
+
+web.time <- data.frame(January, February, March, April, May, June, July, August,
+                       September, October, November, December)
+months.means <- colMeans(web.time)
+months.sd <- apply(web.time, 2, FUN=sd)
+
+usethis::use_data(months.means, overwrite=TRUE)
+usethis::use_data(months.sd, overwrite=TRUE)

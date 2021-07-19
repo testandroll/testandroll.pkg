@@ -23,4 +23,5 @@ Computes the profit-maximizing test size for test & roll with 2 arms
 }
 \examples{
 test_size_nn(N=10000, s=.1, mu=c(.7,.7), sigma=c(.05,.05))
+test_size_nn(N=10000, s=c(.1,.2), mu=c(.7,.7), sigma=c(.05,.05))
 }

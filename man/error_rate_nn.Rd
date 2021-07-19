@@ -2,7 +2,7 @@
 % Please edit documentation in R/nn_functions.R
 \name{error_rate_nn}
 \alias{error_rate_nn}
-\title{Computes the rate of incorrect deployments
+\title{Computes the rate of incorrect deployments with symmetric normal priors
 Where response is normal with symmetric normal priors}
 \usage{
 error_rate_nn(n, s, sigma)
@@ -10,17 +10,18 @@ error_rate_nn(n, s, sigma)
 \arguments{
 \item{n}{vector of length 2 containing the sample sizes}
 
-\item{s}{vector of length 2 containing the standard deviations of the outcome}
+\item{s}{vector of length 1 (symmetrical) containing the standard deviations of the outcome}
 
-\item{sigma}{vector of length 2 containing the standard deviations of the prior on the mean response}
+\item{sigma}{vector of length 1 (symmetrical) containing the standard deviations of the prior on the mean response}
 }
 \value{
 rate of incorrect deployments
 }
 \description{
-Computes the rate of incorrect deployments
+Computes the rate of incorrect deployments with symmetric normal priors
 Where response is normal with symmetric normal priors
 }
 \examples{
-error_rate_nn(n=100, s=20, sigma=10)
+error_rate_nn(n=100, s=.5, sigma=.2)
+error_rate_nn(n=c(100,200), s=.5, sigma=.2)
 }

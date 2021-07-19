@@ -7,7 +7,15 @@
 test_eval_nn(n, N, s, mu, sigma)
 }
 \arguments{
-\item{sigma}{}
+\item{n}{vector of length 2 containing the sample sizes}
+
+\item{N}{deployment population}
+
+\item{s}{known standard deviations of the outcome}
+
+\item{mu}{means of the priors on the mean response}
+
+\item{sigma}{standard deviations of the priors on the mean response}
 }
 \value{
 a data frame containing summary statistics such as profit per customer,
@@ -15,4 +23,8 @@ profits from test phase, error rates, etc.
 }
 \description{
 Provides summary of a test & roll plan
+}
+\examples{
+test_eval_nn(n=c(100,100), N=1000, s=.1, mu=.1, sigma=.05)
+test_eval_nn(n=c(100,200), N=1000, s=c(.1,.2), mu=c(.1,.2), sigma=c(.05,.1))
 }

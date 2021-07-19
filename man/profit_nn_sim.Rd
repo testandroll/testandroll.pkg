@@ -30,5 +30,7 @@ A list containing the profit, regret, and error rates
 Computes the per-customer profit for test & roll with K arms
 }
 \examples{
-profit_nn_sim(n=100, N=1000, s=10, mu=10, sigma=10, K=2, TS=FALSE, R=1000)
+profit_nn_sim(n=100, N=1000, s=10, mu=10, sigma=10, K=2, TS=FALSE, R=100)
+profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=100)
+
 }

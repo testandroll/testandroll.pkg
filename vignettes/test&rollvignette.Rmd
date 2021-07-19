@@ -8,6 +8,10 @@ output:
 
 ## 1. Introduction
 ### 1.1 About Test & Roll
+The Test and Roll Package implements the methods in the paper "Profit-maximizing a/b tests."  
+*Source:*
+Feit, E. M., & Berman, R. (2018). Profit-maximizing a/b tests. Available at SSRN.
+
 Test & Roll (tactical A/B testing) describes an experimentation process in marketing where a subset of customers are randomly assigned to a treatment and customer response data is first collected in a "test" stage. In the "roll" stage that follows, marketers deploy one treatment to all remaining customers based on the test results.<br/>  
 Marketers often use A/B testing as a tool to compare marketing treatments in a test stage and then deploy the better-performing treatment to the remainder of the consumer population. While these tests have traditionally been analyzed using hypothesis testing, we re-frame them as an explicit trade-off between the opportunity cost of the test (where some customers receive a sub-optimal treatment) and the potential losses associated with deploying a sub-optimal treatment to the remainder of the population is deployed.<br/>  
 Profit-maximizing Test & Roll has several advantages over traditional hypothesis testing.  
@@ -47,7 +51,7 @@ library(testandroll.pkg)
 test_size_nht() - computes test sizes under hypothesis testing 
 test_size_nn() - computes profit-maximizing test sizes under test & roll   
 profit_nn() - computes profit under profit-maximizing tests  
-proft_perfect_nn() - computes profit with perfect information
+profit_perfect_nn() - computes profit with perfect information
 error_rate_nn() - computes rate of incorrect deployments  
 <br/>
 **Section 3) Usage for K-arm tests (with simulation)**   

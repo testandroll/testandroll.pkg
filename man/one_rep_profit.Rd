@@ -9,15 +9,15 @@ Returns profits and error rates under perfect information, test & roll, and Thom
 one_rep_profit(n, N, s, mu, sigma, K, TS = FALSE)
 }
 \arguments{
-\item{n}{vector of length 2 containing the sample sizes}
+\item{n}{vector of length K containing the sample sizes}
 
 \item{N}{the deployment population}
 
-\item{s}{vector of length 2 containing the standard deviations of the outcome}
+\item{s}{vector of length K containing the standard deviations of the outcome}
 
-\item{mu}{vector of length 2 containing the means of the prior on the mean response}
+\item{mu}{vector of length K containing the means of the prior on the mean response}
 
-\item{sigma}{vector of length 2 containing the standard deviations of the prior on the mean response}
+\item{sigma}{vector of length K containing the standard deviations of the prior on the mean response}
 
 \item{K}{the number of arms (treatments)}
 
@@ -32,5 +32,6 @@ Draws a true mean for each arm and generates N observations from each arm
 Returns profits and error rates under perfect information, test & roll, and Thomson sampling
 }
 \examples{
-one_rep_profit(n=100, N=1000, s=20, mu=20, sigma=10, K=2, TS=FALSE)
+one_rep_profit(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05), K=2, TS=FALSE)
+one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
 }

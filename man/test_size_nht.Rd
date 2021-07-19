@@ -8,7 +8,7 @@ test_size_nht(s, d, conf = 0.95, power = 0.8, N = NULL)
 }
 \arguments{
 \item{s}{vector of length 1 (symmetric) or 2 (asymmetric) indicating
-response standard deviation(s)}
+response standard deviations}
 
 \item{d}{minimum detectable difference between treatments}
 
@@ -25,5 +25,6 @@ recommended sample sizes as a vector
 Computes the recommended sample sizes for a null hypothesis test
 }
 \examples{
-test_size_nht(s=c(.5,.10), d=.2, conf=0.95, power=0.8, N=NULL)
+test_size_nht(s=c(0.5,0.10), d=0.2, conf=0.95, power=0.8, N=NULL)
+test_size_nht(s=0.5, d=0.2, conf=0.95, power=0.8, N=NULL)
 }
