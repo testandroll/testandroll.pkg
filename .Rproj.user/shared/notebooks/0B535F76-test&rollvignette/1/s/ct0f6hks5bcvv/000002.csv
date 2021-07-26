@@ -1,0 +1,4 @@
+"0","one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)"
+"2","Error in one_rep_test_size(1:(floor(10/2) - 1), N = 10, s = c(10, 10),  : 
+  could not find function ""one_rep_test_size""
+"

@@ -313,7 +313,7 @@ one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
 #' @return A list containing the profit, regret, and error rates
 #' @export
 #'
-#' @examples profit_nn_sim(n=100, N=1000, s=10, mu=10, sigma=10, K=2, TS=FALSE, R=100)
+#' @examples profit_nn_sim(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05))
 #' profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=100)
 #'
 profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
@@ -343,8 +343,8 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
   regret <- rbind(exp_regret=regret,
                   apply(regret_draws, 2, quantile, probs=c(0.05, 0.95), na.rm=TRUE))
   error <- mean(reps[,4])
-  deploy_1 <- mean(reps[,5])
-  return(list(profit=profit, regret=regret, error_rate=error, deploy_1_rate = deploy_1,
+  #deploy_1 <- mean(reps[,5])
+  return(list(profit=profit, regret=regret, error_rate=error, #deploy_1_rate = deploy_1,
               profit_draws=reps, regret_draws=regret_draws))
 }
 
@@ -352,7 +352,7 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
 #' Returns profits for all possible equal sample sizes
 #'
 #'
-#' @param n_vals
+#' @param n_vals potential values for n (1:(floor(N/K)-1))
 #' @param N deployment population
 #' @param s standard deviations of the outcome
 #' @param mu means of the priors on the mean response
@@ -362,7 +362,7 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
 #' @return A 2-column matrix with values of n in the first column and profits in the second column
 #' @export
 #'
-#' @examples one_rep_test_size(c(20,50,100), N=1000, s=c(10,10,10), mu= 20, sigma=10, K=2)
+#' @examples one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)
 one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
   # utility function used in test_size_nn_sim() to simulate one set of potential outcomes
   # and profits for all possible equal sample sizes
@@ -386,7 +386,7 @@ one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
   return(cbind(n=n_vals, profit))
 }
 
-#' Computes the profit-maximizing test size for a multi-armed test & roll
+#' Computes the profit-maximizing test size and profits for a multi-armed test & roll
 #'
 #' @param N deployment population
 #' @param s standard deviations of the response (length 1(symmetric) or K)
@@ -486,6 +486,7 @@ test_eval_nn <- function(n, N, s, mu, sigma) {
              profit_gain = gain,
              regret = 1-profit/perfect,
              error_rate = error_rate,
-             deploy_1_rate = deploy_1_rate,
-             tie_rate = 0)
+             #deploy_1_rate = deploy_1_rate,
+             tie_rate = 0
+             )
 }

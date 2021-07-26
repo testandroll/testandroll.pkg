@@ -1,25 +1,25 @@
 {
-    "id": "DC7B7CCF",
+    "id": "363461E6",
     "path": "~/GitHub/testandroll.pkg/vignettes/test&rollvignette.Rmd",
     "project_path": "vignettes/test&rollvignette.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "3100482426",
     "contents": "",
-    "dirty": true,
-    "created": 1626653363524.0,
+    "dirty": false,
+    "created": 1627263861409.0,
     "source_on_save": false,
     "relative_order": 2,
     "properties": {
-        "cursorPosition": "19,177",
-        "scrollLine": "18",
+        "cursorPosition": "183,107",
+        "scrollLine": "173",
         "source_window_id": ""
     },
     "folds": "",
-    "lastKnownWriteTime": 1626660557,
+    "lastKnownWriteTime": 1627267339,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1626660736737,
+    "last_content_update": 1627267381453,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -2,8 +2,8 @@
 title: "Test & Roll Vignette"
 author: "Maxine Fang"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ## 1. Introduction
@@ -25,6 +25,9 @@ The Test & Roll package can be used to calculate test sizes as well as resulting
 library(devtools)
 install_github('mfang17/testandroll.pkg')
 library(testandroll.pkg)
+#Extra installations for Rmd to knit
+install.packages('doParallel', repos='http://cran.us.r-project.org')
+library(doParallel)
 ```
 
 ### 1.3 Computing priors from data
@@ -70,7 +73,8 @@ plot_prior_effect_nn() - plot prior densities against treatment effect (differen
 ### 2.1 Computing profit-maximizing test sizes (2-arm tests)
 **test_size_nht() computes test sizes under hypothesis testing.**
 ```{r}
-test_size_nht(s=c(.5,.10), d=.2, conf=0.95, power=0.8, N=NULL)
+test_size_nht(s=c(0.5,0.10), d=0.2, conf=0.95, power=0.8, N=NULL)
+test_size_nht(s=0.5, d=0.2, conf=0.95, power=0.8, N=NULL)
 ```
 
 Takes in parameters:  
@@ -88,6 +92,7 @@ For the asymmetric case $s_1 \neq s_2$, the recommended sample sizes are calcula
 **test_size_nn() computes the profit-maximizing test size for test & roll with 2 arms**   
 ```{r}
 test_size_nn(N=10000, s=.1, mu=c(.7,.7), sigma=c(.05,.05))
+test_size_nn(N=10000, s=c(.1,.2), mu=c(.7,.7), sigma=c(.05,.05))
 ```
 
 Takes in parameters:  
@@ -104,6 +109,7 @@ For the symmetric case $s_1=s_2=s$, the recommended sample size is calculated us
 **profit_nn() computes the per-customer profit for test & roll with 2 arms**
 ```{r}
 profit_nn(n=100, N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
+profit_nn(n=c(100,200), N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
 ```
 Takes in parameters:  
 "n" - vector of length 2 containing the sample sizes  
@@ -118,7 +124,7 @@ For the symmetric case, the deploy stage profit is calculated using $(N - n_1 - 
 <br/>
 **profit_perfect_nn() computes the profit with perfect information**
 ```{r}
-profit_perfect_nn(mu=.7, sigma=.2)
+profit_perfect_nn(mu=.7, sigma=.02)
 ```
 Takes in parameters:  
 "mu" - means of the prior on the mean response   
@@ -130,28 +136,68 @@ For the symmetric  case, the perfect information profit is calculated using $\le
 **error_rate_nn() computes the rate of incorrect deployments**
 ```{r}
 error_rate_nn(n=100, s=.5, sigma=.2)
+error_rate_nn(n=c(100,200), s=.5, sigma=.2)
 ```
 Takes in parameters:  
 "n" - vector of length 2 containing the sample sizes  
 "s" - vector of length 1 (symmetrical) containing the standard deviations of the outcome  
-"sigma" -vector of length 1 (symmetrical) containing the standard deviations of the prior on the mean response  
+"sigma" - vector of length 1 (symmetrical) containing the standard deviations of the prior on the mean response  
 and returns a numeric that is the error rate  
 <br/>
-With symmetric normal priors, the error rate is calculated using $\frac{1}{4} - \frac{1}{2 \pi}\arctan\left(\frac{\sqrt{2}\sigma}{s} \sqrt{\frac{n_1 n_2}{n_1+n_2}}\right)$. 
-
+With symmetric normal priors, the error rate is calculated using $\frac{1}{4} - \frac{1}{2 \pi}\arctan\left(\frac{\sqrt{2}\sigma}{s} \sqrt{\frac{n_1 n_2}{n_1+n_2}}\right)$. The asymmetric case has not yet been implemented.
+<br/>
 ## 3. Usage for K-arm tests (with simulation)
 ### 3.1 Computing profit-maximizing test sizes (K-arm tests) with simulation
-test_size_nn_sim() #asymmetric case not supported atm
-
+**test_size_nn_sim() (asymmetric case not supported at the moment) Computes the profit-maximizing test size and profits for a multi-armed test & roll**
+```{r}
+test_size_nn_sim(N=1000, s=.1, mu=.1, sigma=.05, K=2, R=1000)
+test_size_nn_sim(N=1000, s=c(.1,.2,.3), m=c(.1,.2,.3), sigma=c(.05,.08,.1), K=3, R=1000)
+```
+Takes in parameters:  
+"N" - deployment population   
+"s" - standard deviations of the response (length 1(symmetric) or K)  
+"mu" - vector of length K containing means of the priors on the mean response  
+"sigma" - vector of length K containing the standard deviations of the priors on the mean response  
+"K" - number of arms (treatments)   
+"R" - number of simulation replications  
+and returns a list with the sample sizes and expected profit per customer
 <br/>
-one_rep_test_size() (utility function)
+**one_rep_test_size() (utility function for test_size_nn_sim()) simulates one set of potential outcomes**
+```{r}
+one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)
+```
+Takes in parameters:  
+"n_vals" - potential values for n  
+"N" - deployment population  
+"s" - standard deviations of the outcome  
+"mu" - means of the priors on the mean response  
+"sigma" - standard deviations of the priors on the mean response  
+"K" - number of arms (treatments)  
+and returns a 2-column matrix with values of n in the first column and profits in the second column  
+and returns profits for all possible equal sample sizes
+</br>
 
 ### 3.2 Computing profits and errors under different testing methods (K-arm tests) with simulation
-profit_nn_sim() 
+**profit_nn_sim() computes the per-customer profit for test & roll with K arms** 
+```{r}
+profit_nn_sim(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05), R=10)
+profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=10)
+```
+
 <br/>
-one_rep_profit() (utility function)
+**one_rep_profit() (utility function for profit_nn_sim()) simulates one set of potential outcomes, **
+**draws a true mean for each arm and generates N observations from each arm**
+```{r}
+one_rep_profit(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05), K=2, TS=FALSE)
+one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
+```
+
 <br/>
-test_eval_nn()
+**test_eval_nn() provides summary of a test & roll plan**
+```{r}
+test_eval_nn(n=c(100,100), N=1000, s=.1, mu=.1, sigma=.05)
+test_eval_nn(n=c(100,200), N=1000, s=c(.1,.2), mu=c(.1,.2), sigma=c(.05,.1))
+```
 
 ## 4. Visualizing prior effects on profits and mean response
 plot_prior_mean_resp_nn() plots prior densities against mean response (profit per customer)  

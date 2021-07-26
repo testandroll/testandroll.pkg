@@ -1,0 +1,34 @@
+"0","library(devtools)"
+"2","Loading required package: usethis
+"
+"2","package ‘usethis’ was built under R version 4.0.5"
+"0","install_github('mfang17/testandroll.pkg')"
+"2","Skipping install of 'testandroll.pkg' from a github remote, the SHA1 (584d6280) has not changed since last install.
+  Use `force = TRUE` to force installation
+"
+"0","library(testandroll.pkg)"
+"0","#Extra installations for Rmd to knit"
+"0","install.packages('doParallel', repos='http://cran.us.r-project.org')"
+"2","Installing package into ‘C:/Users/mfang/OneDrive/Documents/R/win-library/4.0’
+(as ‘lib’ is unspecified)
+"
+"2","
+"
+"2","
+"
+"0","library(doParallel)"
+"2","Warning:"
+"2"," package â€˜doParallelâ€™ was built under R version 4.0.5
+"
+"2","Loading required package: foreach
+"
+"2","Warning:"
+"2"," package â€˜foreachâ€™ was built under R version 4.0.5
+"
+"2","Loading required package: iterators
+"
+"2","Warning:"
+"2"," package â€˜iteratorsâ€™ was built under R version 4.0.5
+"
+"2","Loading required package: parallel
+"
