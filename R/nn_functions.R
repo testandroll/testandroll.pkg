@@ -92,6 +92,7 @@ profit_nn <- function(n, N, s, mu, sigma, log_n=FALSE) {
 }
 
 #' Computes the profit-maximizing test size for test & roll with 2 arms
+#' (asymmetric case not yet implemented)
 #'
 #' @param N size of deployment population
 #' @param s vector of length 2 containing the standard deviations of the outcome
@@ -249,7 +250,7 @@ plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
 #' @param K the number of arms (treatments)
 #' @param TS whether or not to run Thomson sampling, 'TRUE' or 'FALSE'
 #'
-#' @return The profits and error rates under perfect information, test & roll, and Thomson sampling
+#' @return The profits and error rates under perfect information, test & roll, and Thomson sampling under one simulation
 #' @export
 #'
 #' @examples one_rep_profit(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05), K=2, TS=FALSE)
@@ -257,7 +258,7 @@ plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
 
 one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
   # utility function used in profit_nn_sim() to simulate one set of potential outcomes
-  m <- rnorm(K, mu, sigma) # draw a true mean for the arm
+  m <- rnorm(K, mu, sigma) # draw a true mean for each arm
   y <- matrix(rnorm(N*K, m, s), nrow=N, ncol=K, byrow=TRUE) # N observations from each arm
 
   # perfect information profit
@@ -301,9 +302,9 @@ one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
 #' Computes the per-customer profit for test & roll with K arms
 #'
 #'
-#' @param n sample sizes for test & roll
+#' @param n sample sizes for test & roll (vector length 1 or K)
 #' @param N deployment population
-#' @param s standard deviations of the outcome
+#' @param s standard deviations of the outcome (vector of length 1 or K)
 #' @param mu means of the priors on the mean response (vector of length 1 or K)
 #' @param sigma standard deviations of the priors on the mean response (vector of length 1 or K)
 #' @param K number of arms
@@ -399,7 +400,7 @@ one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
 #' @export
 #'
 #' @examples test_size_nn_sim(N=1000, s=.1, mu=.1, sigma=.05, K=2, R=1000)
-#' test_size_nn_sim(N=1000, s=c(.1,.2,.3), m=c(.1,.2,.3), sigma=c(.05,.08,.1), K=3, R=1000)
+#'
 test_size_nn_sim <- function(N, s, mu, sigma, K=2, R=1000) {
   # computes the profit-maximizing test size for a multi-armed test & roll
   # where response is normal with normal priors (possibly asymmetric)
@@ -466,14 +467,16 @@ test_eval_nn <- function(n, N, s, mu, sigma) {
     perfect <- profit_perfect_nn(mu, sigma)*N
     error_rate <- error_rate_nn(n, s, sigma)
     deploy_1_rate <- 0.5
-  } else { # assymetric
+    gain <- profit - rand
+  } else { # asymmetric
     test <- mu[1] * n[1] + mu[2] *n[2]
     deploy <- profit - test
     rand <- ((mu[1] + mu[2])*0.5)*N
     out <- profit_nn_sim(n, N, s, mu, sigma, R=10000)
     perfect <- out$profit["exp_profit", "perfect_info"]*N
     error_rate <- out$error_rate
-    deploy_1_rate <- out$deploy_1_rate
+    gain <- profit - rand
+    #deploy_1_rate <- out$deploy_1_rate
   }
   gain <- (profit - rand) / (perfect - rand)
   data.frame(n1=n[1], n2=n[2],

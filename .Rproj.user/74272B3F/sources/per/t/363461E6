@@ -3,23 +3,23 @@
     "path": "~/GitHub/testandroll.pkg/vignettes/test&rollvignette.Rmd",
     "project_path": "vignettes/test&rollvignette.Rmd",
     "type": "r_markdown",
-    "hash": "3100482426",
+    "hash": "1426744323",
     "contents": "",
     "dirty": false,
     "created": 1627263861409.0,
     "source_on_save": false,
     "relative_order": 2,
     "properties": {
-        "cursorPosition": "183,107",
-        "scrollLine": "173",
-        "source_window_id": ""
+        "cursorPosition": "52,20",
+        "scrollLine": "45",
+        "source_window_id": "w4pwefqu3r65d"
     },
     "folds": "",
-    "lastKnownWriteTime": 1627267339,
+    "lastKnownWriteTime": 1627616823,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1627267381453,
+    "last_content_update": 1627616823873,
     "read_only": false,
     "read_only_alternatives": []
 }
