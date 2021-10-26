@@ -2,7 +2,8 @@
 % Please edit documentation in R/nn_functions.R
 \name{test_size_nn}
 \alias{test_size_nn}
-\title{Computes the profit-maximizing test size for test & roll with 2 arms}
+\title{Computes the profit-maximizing test size for test & roll with 2 arms
+(asymmetric case not yet implemented)}
 \usage{
 test_size_nn(N, s, mu, sigma)
 }
@@ -20,6 +21,7 @@ a vector containing the sample sizes
 }
 \description{
 Computes the profit-maximizing test size for test & roll with 2 arms
+(asymmetric case not yet implemented)
 }
 \examples{
 test_size_nn(N=10000, s=.1, mu=c(.7,.7), sigma=c(.05,.05))

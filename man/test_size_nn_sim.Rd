@@ -2,7 +2,7 @@
 % Please edit documentation in R/nn_functions.R
 \name{test_size_nn_sim}
 \alias{test_size_nn_sim}
-\title{Computes the profit-maximizing test size for a multi-armed test & roll}
+\title{Computes the profit-maximizing test size and profits for a multi-armed test & roll}
 \usage{
 test_size_nn_sim(N, s, mu, sigma, K = 2, R = 1000)
 }
@@ -23,9 +23,9 @@ test_size_nn_sim(N, s, mu, sigma, K = 2, R = 1000)
 a list with the sample sizes and expected profit per customer
 }
 \description{
-Computes the profit-maximizing test size for a multi-armed test & roll
+Computes the profit-maximizing test size and profits for a multi-armed test & roll
 }
 \examples{
 test_size_nn_sim(N=1000, s=.1, mu=.1, sigma=.05, K=2, R=1000)
-test_size_nn_sim(N=1000, s=c(.1,.2,.3), m=c(.1,.2,.3), sigma=c(.05,.08,.1), K=3, R=1000)
+
 }

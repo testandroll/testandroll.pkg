@@ -24,7 +24,7 @@ one_rep_profit(n, N, s, mu, sigma, K, TS = FALSE)
 \item{TS}{whether or not to run Thomson sampling, 'TRUE' or 'FALSE'}
 }
 \value{
-The profits and error rates under perfect information, test & roll, and Thomson sampling
+The profits and error rates under perfect information, test & roll, and Thomson sampling under one simulation
 }
 \description{
 Utility function used in function 'profit_nn_sim()' to simulate one set of potential outcomes

@@ -7,11 +7,11 @@
 profit_nn_sim(n, N, s, mu, sigma, K = 2, TS = FALSE, R = 1000)
 }
 \arguments{
-\item{n}{sample sizes for test & roll}
+\item{n}{sample sizes for test & roll (vector length 1 or K)}
 
 \item{N}{deployment population}
 
-\item{s}{standard deviations of the outcome}
+\item{s}{standard deviations of the outcome (vector of length 1 or K)}
 
 \item{mu}{means of the priors on the mean response (vector of length 1 or K)}
 
@@ -30,7 +30,7 @@ A list containing the profit, regret, and error rates
 Computes the per-customer profit for test & roll with K arms
 }
 \examples{
-profit_nn_sim(n=100, N=1000, s=10, mu=10, sigma=10, K=2, TS=FALSE, R=100)
+profit_nn_sim(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05))
 profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=100)
 
 }

@@ -1,0 +1,539 @@
+\documentclass[a4paper]{book}
+\usepackage[times,inconsolata,hyper]{Rd}
+\usepackage{makeidx}
+\usepackage[utf8]{inputenc} % @SET ENCODING@
+% \usepackage{graphicx} % @USE GRAPHICX@
+\makeindex{}
+\begin{document}
+\chapter*{}
+\begin{center}
+{\textbf{\huge Package `testandroll.pkg'}}
+\par\bigskip{\large \today}
+\end{center}
+\begin{description}
+\raggedright{}
+\inputencoding{utf8}
+\item[Type]\AsIs{Package}
+\item[Title]\AsIs{What the Package Does (Title Case)}
+\item[Version]\AsIs{0.1.0}
+\item[Author]\AsIs{Who wrote it}
+\item[Maintainer]\AsIs{The package maintainer }\email{yourself@somewhere.net}\AsIs{}
+\item[Description]\AsIs{More about what it does (maybe more than one line)
+Use four spaces when indenting paragraphs within the Description.}
+\item[License]\AsIs{What license is it under?}
+\item[Encoding]\AsIs{UTF-8}
+\item[LazyData]\AsIs{true}
+\item[RoxygenNote]\AsIs{7.1.1}
+\item[Depends]\AsIs{R (>= 2.10)}
+\end{description}
+\Rdcontents{\R{} topics documented:}
+\inputencoding{utf8}
+\HeaderA{error\_rate\_nn}{Computes the rate of incorrect deployments with symmetric normal priors Where response is normal with symmetric normal priors}{error.Rul.rate.Rul.nn}
+%
+\begin{Description}\relax
+Computes the rate of incorrect deployments with symmetric normal priors
+Where response is normal with symmetric normal priors
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+error_rate_nn(n, s, sigma)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{n}] vector of length 2 containing the sample sizes
+
+\item[\code{s}] vector of length 1 (symmetrical) containing the standard deviations of the outcome
+
+\item[\code{sigma}] vector of length 1 (symmetrical) containing the standard deviations of the prior on the mean response
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+rate of incorrect deployments
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+error_rate_nn(n=100, s=.5, sigma=.2)
+error_rate_nn(n=c(100,200), s=.5, sigma=.2)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{months.means}{Sample data means}{months.means}
+\keyword{datasets}{months.means}
+%
+\begin{Description}\relax
+The average proportion of customers that stayed on the website
+for longer than 5 minutes each month.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+months.means
+\end{verbatim}
+\end{Usage}
+%
+\begin{Format}
+A vector of length 12
+\end{Format}
+\inputencoding{utf8}
+\HeaderA{months.sd}{Sample data standard deviations}{months.sd}
+\keyword{datasets}{months.sd}
+%
+\begin{Description}\relax
+The standard deviations of the proportion of customers that stayed on the website
+for longer than 5 minutes each month.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+months.sd
+\end{verbatim}
+\end{Usage}
+%
+\begin{Format}
+A vector of length 12
+\end{Format}
+\inputencoding{utf8}
+\HeaderA{one\_rep\_profit}{Utility function used in function 'profit\_nn\_sim()' to simulate one set of potential outcomes Draws a true mean for each arm and generates N observations from each arm Returns profits and error rates under perfect information, test \& roll, and Thomson sampling}{one.Rul.rep.Rul.profit}
+%
+\begin{Description}\relax
+Utility function used in function 'profit\_nn\_sim()' to simulate one set of potential outcomes
+Draws a true mean for each arm and generates N observations from each arm
+Returns profits and error rates under perfect information, test \& roll, and Thomson sampling
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+one_rep_profit(n, N, s, mu, sigma, K, TS = FALSE)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{n}] vector of length K containing the sample sizes
+
+\item[\code{N}] the deployment population
+
+\item[\code{s}] vector of length K containing the standard deviations of the outcome
+
+\item[\code{mu}] vector of length K containing the means of the prior on the mean response
+
+\item[\code{sigma}] vector of length K containing the standard deviations of the prior on the mean response
+
+\item[\code{K}] the number of arms (treatments)
+
+\item[\code{TS}] whether or not to run Thomson sampling, 'TRUE' or 'FALSE'
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+The profits and error rates under perfect information, test \& roll, and Thomson sampling
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+one_rep_profit(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05), K=2, TS=FALSE)
+one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{one\_rep\_test\_size}{Utility function used in test\_size\_nn\_sim() to simulate one set of potential outcomes Returns profits for all possible equal sample sizes}{one.Rul.rep.Rul.test.Rul.size}
+%
+\begin{Description}\relax
+Utility function used in test\_size\_nn\_sim() to simulate one set of potential outcomes
+Returns profits for all possible equal sample sizes
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+one_rep_test_size(n_vals, N, s, mu, sigma, K)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{N}] deployment population
+
+\item[\code{s}] standard deviations of the outcome
+
+\item[\code{mu}] means of the priors on the mean response
+
+\item[\code{sigma}] standard deviations of the priors on the mean response
+
+\item[\code{K}] number of arms (treatments)
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+A 2-column matrix with values of n in the first column and profits in the second column
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+one_rep_test_size(c(20,50,100), N=1000, s=c(10,10,10), mu= 20, sigma=10, K=2)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{plot\_prior\_effect\_nn}{Plots prior densities against treatment effect (difference in profit per customer)}{plot.Rul.prior.Rul.effect.Rul.nn}
+%
+\begin{Description}\relax
+Plots prior densities against treatment effect (difference in profit per customer)
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+plot_prior_effect_nn(mu, sigma, abs = FALSE)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mu}] means of the prior on the mean response
+
+\item[\code{sigma}] standard deviations of the prior on the mean response
+
+\item[\code{abs}] whether or not to take the absolute difference, 'TRUE' or 'FALSE'
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+graph plotting prior density vs. difference in profit per customer
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+plot_prior_effect_nn(mu=c(5,10), sigma=c(10,10), abs=FALSE)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{plot\_prior\_mean\_resp\_nn}{Plots prior densities against mean response (profit per customer)}{plot.Rul.prior.Rul.mean.Rul.resp.Rul.nn}
+%
+\begin{Description}\relax
+Plots prior densities against mean response (profit per customer)
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+plot_prior_mean_resp_nn(mu, sigma)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mu}] means of the prior on the mean response
+
+\item[\code{sigma}] standard deviations of the prior on the mean response
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+graph plotting prior density vs. profit per customer
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+#plot_prior_mean_resp_nn(mu=c(5,10), sigma=c(10,10))
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{plot\_prior\_resp\_nn}{Plots prior densities against response (profit per customer)}{plot.Rul.prior.Rul.resp.Rul.nn}
+%
+\begin{Description}\relax
+Plots prior densities against response (profit per customer)
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+plot_prior_resp_nn(s, mu, sigma)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{s}] known standard deviations of the response
+
+\item[\code{mu}] means of the prior on the mean response
+
+\item[\code{sigma}] standard deviations of the prior on the mean response
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+graph plotting prior density vs. profit per customer
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+plot_prior_resp_nn(s=c(10,20), mu=c(5,10), sigma=c(10,10))
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{profit\_nn}{Computes the per-customer profit for test \& roll with 2 arms}{profit.Rul.nn}
+%
+\begin{Description}\relax
+Computes the per-customer profit for test \& roll with 2 arms
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+profit_nn(n, N, s, mu, sigma, log_n = FALSE)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{n}] vector of length 2 containing the sample sizes
+
+\item[\code{N}] size of deployment population
+
+\item[\code{s}] vector of length 2 containing the known standard deviations of the outcome
+
+\item[\code{mu}] vector of length 2 containing the means of the prior on the mean response
+
+\item[\code{sigma}] vector of length 2 containing the standard deviations of the prior on the mean response
+
+\item[\code{log\_n}] whether or not log(n) is an input rather than n (to avoid negative solutions), 'TRUE' or 'FALSE'
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+per-customer profit for N customers
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+profit_nn(n=100, N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
+profit_nn(n=c(100,200), N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{profit\_nn\_sim}{Computes the per-customer profit for test \& roll with K arms}{profit.Rul.nn.Rul.sim}
+%
+\begin{Description}\relax
+Computes the per-customer profit for test \& roll with K arms
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+profit_nn_sim(n, N, s, mu, sigma, K = 2, TS = FALSE, R = 1000)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{n}] sample sizes for test \& roll
+
+\item[\code{N}] deployment population
+
+\item[\code{s}] standard deviations of the outcome
+
+\item[\code{mu}] means of the priors on the mean response (vector of length 1 or K)
+
+\item[\code{sigma}] standard deviations of the priors on the mean response (vector of length 1 or K)
+
+\item[\code{K}] number of arms
+
+\item[\code{TS}] whether or not to run Thomson sampling, 'TRUE' or 'FALSE'
+
+\item[\code{R}] number of simulation replications
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+A list containing the profit, regret, and error rates
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+profit_nn_sim(n=100, N=1000, s=10, mu=10, sigma=10, K=2, TS=FALSE, R=100)
+profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=100)
+
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{profit\_perfect\_nn}{Computes per-customer profit with perfect information Where response is normal with symmetric normal priors}{profit.Rul.perfect.Rul.nn}
+%
+\begin{Description}\relax
+Computes per-customer profit with perfect information
+Where response is normal with symmetric normal priors
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+profit_perfect_nn(mu, sigma)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mu}] means of the prior on the mean response
+
+\item[\code{sigma}] standard deviations of the prior on the mean response
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+per-customer profit with perfect information
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+profit_perfect_nn(mu=.7, sigma=.02)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{test\_eval\_nn}{Provides summary of a test \& roll plan}{test.Rul.eval.Rul.nn}
+%
+\begin{Description}\relax
+Provides summary of a test \& roll plan
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+test_eval_nn(n, N, s, mu, sigma)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{n}] vector of length 2 containing the sample sizes
+
+\item[\code{N}] deployment population
+
+\item[\code{s}] known standard deviations of the outcome
+
+\item[\code{mu}] means of the priors on the mean response
+
+\item[\code{sigma}] standard deviations of the priors on the mean response
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+a data frame containing summary statistics such as profit per customer,
+profits from test phase, error rates, etc.
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+test_eval_nn(n=c(100,100), N=1000, s=.1, mu=.1, sigma=.05)
+test_eval_nn(n=c(100,200), N=1000, s=c(.1,.2), mu=c(.1,.2), sigma=c(.05,.1))
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{test\_size\_nht}{Computes the recommended sample sizes for a null hypothesis test}{test.Rul.size.Rul.nht}
+%
+\begin{Description}\relax
+Computes the recommended sample sizes for a null hypothesis test
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+test_size_nht(s, d, conf = 0.95, power = 0.8, N = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{s}] vector of length 1 (symmetric) or 2 (asymmetric) indicating
+response standard deviations
+
+\item[\code{d}] minimum detectable difference between treatments
+
+\item[\code{conf}] 1 - type I error rate
+
+\item[\code{power}] 1 - type II error rate
+
+\item[\code{N}] finite deployment population, if NULL no finite population correction is used
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+recommended sample sizes as a vector
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+test_size_nht(s=c(0.5,0.10), d=0.2, conf=0.95, power=0.8, N=NULL)
+test_size_nht(s=0.5, d=0.2, conf=0.95, power=0.8, N=NULL)
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{test\_size\_nn}{Computes the profit-maximizing test size for test \& roll with 2 arms}{test.Rul.size.Rul.nn}
+%
+\begin{Description}\relax
+Computes the profit-maximizing test size for test \& roll with 2 arms
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+test_size_nn(N, s, mu, sigma)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{N}] size of deployment population
+
+\item[\code{s}] vector of length 2 containing the standard deviations of the outcome
+
+\item[\code{mu}] vector of length 2 containing the means of the prior on the mean response
+
+\item[\code{sigma}] 
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+a vector containing the sample sizes
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+test_size_nn(N=10000, s=.1, mu=c(.7,.7), sigma=c(.05,.05))
+test_size_nn(N=10000, s=c(.1,.2), mu=c(.7,.7), sigma=c(.05,.05))
+\end{ExampleCode}
+\end{Examples}
+\inputencoding{utf8}
+\HeaderA{test\_size\_nn\_sim}{Computes the profit-maximizing test size for a multi-armed test \& roll}{test.Rul.size.Rul.nn.Rul.sim}
+%
+\begin{Description}\relax
+Computes the profit-maximizing test size for a multi-armed test \& roll
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+test_size_nn_sim(N, s, mu, sigma, K = 2, R = 1000)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{N}] deployment population
+
+\item[\code{s}] standard deviations of the response (length 1(symmetric) or K)
+
+\item[\code{mu}] vector of length K containing means of the priors on the mean response
+
+\item[\code{sigma}] vector of length K containing the standard deviations of the priors on the mean response
+
+\item[\code{K}] number of arms (treatments)
+
+\item[\code{R}] number of simulation replications
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+a list with the sample sizes and expected profit per customer
+\end{Value}
+%
+\begin{Examples}
+\begin{ExampleCode}
+test_size_nn_sim(N=1000, s=.1, mu=.1, sigma=.05, K=2, R=1000)
+test_size_nn_sim(N=1000, s=c(.1,.2,.3), m=c(.1,.2,.3), sigma=c(.05,.08,.1), K=3, R=1000)
+\end{ExampleCode}
+\end{Examples}
+\printindex{}
+\end{document}

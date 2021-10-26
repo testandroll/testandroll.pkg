@@ -1,4 +1,4 @@
-#library(doParallel)
+library(doParallel)
 
 #' Computes the recommended sample sizes for a null hypothesis test
 #'

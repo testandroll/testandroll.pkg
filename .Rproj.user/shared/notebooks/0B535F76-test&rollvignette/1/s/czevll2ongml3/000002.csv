@@ -1,0 +1,52 @@
+"0","library(devtools)"
+"2","Loading required package: usethis
+"
+"2","package ‘usethis’ was built under R version 4.0.5"
+"0","install_github('mfang17/testandroll.pkg')"
+"2","Skipping install of 'testandroll.pkg' from a github remote, the SHA1 (721bfd1b) has not changed since last install.
+  Use `force = TRUE` to force installation
+"
+"0","library(testandroll.pkg)"
+"2","
+Attaching package: ‘testandroll.pkg’
+
+"
+"2","The following objects are masked _by_ ‘.GlobalEnv’:
+
+    months.means, months.sd
+
+"
+"0","#Extra installations for Rmd to knit"
+"0","install.packages('doParallel', repos='http://cran.us.r-project.org')"
+"2","Installing package into ‘C:/Users/mfang/OneDrive/Documents/R/win-library/4.0’
+(as ‘lib’ is unspecified)
+"
+"2","trying URL 'http://cran.us.r-project.org/bin/windows/contrib/4.0/doParallel_1.0.16.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 64249 bytes (62 KB)
+"
+"2","downloaded 62 KB
+
+"
+"1","package â€˜doParallelâ€™ successfully unpacked and MD5 sums checked
+"
+"1","
+"
+"1",""
+"1","The downloaded binary packages are in
+	C:\Users\mfang\AppData\Local\Temp\RtmpqMKJdo\downloaded_packages"
+"1",""
+"1","
+"
+"0","library(doParallel)"
+"2","package ‘doParallel’ was built under R version 4.0.5"
+"2","Loading required package: foreach
+"
+"2","package ‘foreach’ was built under R version 4.0.5"
+"2","Loading required package: iterators
+"
+"2","package ‘iterators’ was built under R version 4.0.5"
+"2","Loading required package: parallel
+"
+"0","{results='hide'}"

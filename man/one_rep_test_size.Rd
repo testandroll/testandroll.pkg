@@ -8,6 +8,8 @@ Returns profits for all possible equal sample sizes}
 one_rep_test_size(n_vals, N, s, mu, sigma, K)
 }
 \arguments{
+\item{n_vals}{potential values for n (1:(floor(N/K)-1))}
+
 \item{N}{deployment population}
 
 \item{s}{standard deviations of the outcome}
@@ -26,5 +28,5 @@ Utility function used in test_size_nn_sim() to simulate one set of potential out
 Returns profits for all possible equal sample sizes
 }
 \examples{
-one_rep_test_size(c(20,50,100), N=1000, s=c(10,10,10), mu= 20, sigma=10, K=2)
+one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)
 }

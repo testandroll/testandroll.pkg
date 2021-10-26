@@ -1,0 +1,3 @@
+getwd()
+data <- read.cvs("sampledata.csv")
+data
