@@ -12,7 +12,8 @@ sampledata <- read.csv("sampledata.csv", header=TRUE)
 
 ui <- fluidPage(
   #all the tooltips
-  bsTooltip(id="N", title="N: Total addressable population", placement="bottom", trigger="hover"),
+  bsTooltip(id="download", title=".csv files must have responses in the 3rd column (download sample
+            data to see an example)", placement="bottom", trigger="hover"),
 
   #beginning of ui
   titlePanel("Test and Roll Calculator"), "The calculator is based on the research paper ", tags$a(href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3274875", "Test and Roll: Profit Maximizing A/B Tests"), " by Elea Feit and Ron Berman",
@@ -31,9 +32,9 @@ ui <- fluidPage(
                          tabPanel("Use Inputed Values",
                                   numericInput(inputId="s", label="s: Posterior Standard Deviation",
                                                value=.1),
-                                  numericInput(inputId="mu", label="\u03bc: Prior Mean",
+                                  numericInput(inputId="mu", label="mu: Prior Mean",
                                                value=.1),
-                                  numericInput(inputId="sigma", label="\u03c3: Prior Standard Deviation",
+                                  numericInput(inputId="sigma", label="sigma: Prior Standard Deviation",
                                                value=.05),
                                   actionButton("action1", "Calculate"),
                                   uiOutput("n")
@@ -99,37 +100,17 @@ ui <- fluidPage(
                       column(4, wellPanel(plotOutput("priorEff"), style = "background: white"))),
                       wellPanel("Summary Table", tableOutput("summary"), style = "background: white")
 
-    )
-
     ),
 
     tabPanel("K-arm Test and Roll",
             fluidRow(column(12, "Not yet implemented..."))
-
-    ),
-    tabPanel("Instructions",
-             fluidRow(column(8, tags$br(), tags$b("Using the Test and Roll Calculator"), tags$br("Input the parameters for the \"Priors and posteriors\" panel (population, standard devation,
-                             prior mean, and prior standard deviation). For the priors and posteriors,
-                             you may either input them manually or upload a .csv, .xls, or .xlsx file.
-                             Make sure that the column containing the mean responses for each treament is named \"Mean.Response\".
-                             Remember to click calculate after inputing values or uploading data for the \"Priors and posteriors\" panel.
-                             The other panels will update automatically to calculate optimal sample sizes, profits, etc."),
-                             tags$br(), tags$b("Reading Outputs"), tags$br("The graph \"Profit per cusomter vs. sample size\" plots
-                             the shows the profits for each possible sample size n. You can also see where the user-selected,
-                             and hypothesis-test sample sizes lie in comparison to the Test and Roll profits."),
-                             tags$br("The graphs displaying prior densities in relation to customer profits show how
-                             priors are distributed over customer profits. The graphs will display \u03bc \u00b1 4 standard deviations
-                             of customer profits."),
-                             tags$br("The summary table displays relevant summary statistics for sample sizes generated under
-                             different methods. Note that Thomson Sampling metrics are not displayed due to long calculation times.")))
-
     )
-
+  )
 
 ))
 
 server <- function(input, output) {
-   #the reactive variables
+  #the reactive variables
   s <- reactiveVal(.1)
   mu <- reactiveVal(.1)
   sigma <- reactiveVal(.05)
@@ -161,7 +142,7 @@ server <- function(input, output) {
     perfectprofit <- profit_perfect_nn(mu(), sigma())
 
     ggplot (data=df, aes(x=nval, y=profits)) + geom_line() + ggtitle("Profit per Customer vs. Sample Size") +
-    xlab("Sample Size (n)") + ylab("Profit per Customer") + theme(axis.title=element_text(size=14)) + theme(axis.text=element_text(size=11)) +
+    xlab("Sample Size (n)") + ylab("Profit per Customer") +
     theme(plot.title = element_text(hjust = 0.5, face="bold", size=18)) +
     geom_point(aes(x = nmax[1], y = profitmax),
                color = "#FF0000",
@@ -289,7 +270,7 @@ server <- function(input, output) {
     profperf <- round(profit_perfect_nn(mu(), sigma())*input$N,2)
       n <- test_size_nn(input$N, s(), mu(), sigma())
     proftandr <- round(profit_nn(n, input$N, s(), mu(), sigma())*input$N,2)
-     nh <- test_size_nht(input$sh, input$d, input$conf, input$power, input$N)
+     nh <- test_size_nht(s(), input$d, input$conf, input$power, input$N)
     profhyp <- round(profit_nn(nh, input$N, s(), mu(), sigma())*input$N,2)
     profuser <- round(profit_nn(input$usern, input$N, s(), mu(), sigma())*input$N,2)
     notest <- mu()*input$N

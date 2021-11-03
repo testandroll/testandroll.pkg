@@ -12,7 +12,14 @@ sampledata <- read.csv("sampledata.csv", header=TRUE)
 
 ui <- fluidPage(
   #all the tooltips
-  bsTooltip(id="N", title="N: Total addressable population", placement="bottom", trigger="hover"),
+  bsTooltip(id="N", title="N: total addressable population", placement="bottom", trigger="hover"),
+  bsTooltip(id="s", title="s: standard deviation from collected data", placement="bottom", trigger="hover"),
+  bsTooltip(id="sigma", title="\u03c3: from previous data or estimations", placement="bottom", trigger="hover"),
+  bsTooltip(id="mu", title="\u03bc: from previous data or estimations", placement="bottom", trigger="hover"),
+  bsTooltip(id="usern", title="n: compare profit metrics under test and roll with a user-selected sample size", placement="bottom", trigger="hover"),
+  bsTooltip(id="d", title="d: smallest treatment difference test will detect", placement="bottom", trigger="hover"),
+  bsTooltip(id="conf", title="confidence: probability of detecting true negatives", placement="bottom", trigger="hover"),
+  bsTooltip(id="power", title="power: probability of detecting true postivies", placement="bottom", trigger="hover"),
 
   #beginning of ui
   titlePanel("Test and Roll Calculator"), "The calculator is based on the research paper ", tags$a(href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3274875", "Test and Roll: Profit Maximizing A/B Tests"), " by Elea Feit and Ron Berman",
@@ -58,9 +65,9 @@ ui <- fluidPage(
                                     value=.1),
                        numericInput(inputId="d", label="d: Minimum Detectable Difference",
                                     value=.01),
-                       numericInput(inputId="conf", label="conf: 1 - Type I error rate",
+                       numericInput(inputId="conf", label="confidence: 1 - Type I error rate",
                                     value=.95),
-                       numericInput(inputId="power", label="power: 1- Type II error rate",
+                       numericInput(inputId="power", label="power: 1 - Type II error rate",
                                     value=.80),
                        uiOutput("hn")
              )),
