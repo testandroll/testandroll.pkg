@@ -12,7 +12,14 @@ sampledata <- read.csv("sampledata.csv", header=TRUE)
 
 ui <- fluidPage(
   #all the tooltips
-  bsTooltip(id="N", title="N: Total addressable population", placement="bottom", trigger="hover"),
+  bsTooltip(id="N", title="N: total addressable population", placement="bottom", trigger="hover"),
+  bsTooltip(id="s", title="s: standard deviation from collected data", placement="bottom", trigger="hover"),
+  bsTooltip(id="sigma", title="\u03c3: from previous data or estimations", placement="bottom", trigger="hover"),
+  bsTooltip(id="mu", title="\u03bc: from previous data or estimations", placement="bottom", trigger="hover"),
+  bsTooltip(id="usern", title="n: compare profit metrics under test and roll with a user-selected sample size", placement="bottom", trigger="hover"),
+  bsTooltip(id="d", title="d: smallest treatment difference test will detect", placement="bottom", trigger="hover"),
+  bsTooltip(id="conf", title="confidence: probability of detecting true negatives", placement="bottom", trigger="hover"),
+  bsTooltip(id="power", title="power: probability of detecting true postivies", placement="bottom", trigger="hover"),
 
   #beginning of ui
   titlePanel("Test and Roll Calculator"), "The calculator is based on the research paper ", tags$a(href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3274875", "Test and Roll: Profit Maximizing A/B Tests"), " by Elea Feit and Ron Berman",
@@ -25,19 +32,40 @@ ui <- fluidPage(
                                   numericInput(inputId="N", label="N: Deployment Population",
                                                value=1000)
              ),
+
+#Priors and Posteriors
+
              wellPanel("Priors and posteriors", style = "background: #Dcecf4",
 
                        tabsetPanel(
                          tabPanel("Use Inputed Values",
-                                  numericInput(inputId="s", label="s: Posterior Standard Deviation",
-                                               value=.1),
-                                  numericInput(inputId="mu", label="\u03bc: Prior Mean",
-                                               value=.1),
-                                  numericInput(inputId="sigma", label="\u03c3: Prior Standard Deviation",
-                                               value=.05),
+                                  radioButtons("choice", "Data Distribution", choiceNames=c("Symmetric", "Asymmetric"),
+                                              choiceValues=c("symm", "asymm")),
+                                  conditionalPanel("input.choice == 'symm'", numericInput(inputId="s", label="s: Posterior Standard Deviation",
+                                                              value=.1),
+                                                 numericInput(inputId="mu", label="\u03bc: Prior Mean",
+                                                              value=.1),
+                                                 numericInput(inputId="sigma", label="\u03c3: Prior Standard Deviation",
+                                                              value=.05)),
+                                  conditionalPanel("input.choice == 'asymm'",
+                                                   splitLayout(numericInput(inputId="s1", label="s1",
+                                                                                           value=.1),
+                                                               numericInput(inputId="s2", label="s2", value=.2)),
+                                                   splitLayout(numericInput(inputId="mu1", label="\u03bc1",
+                                                                            value=.1),
+                                                               numericInput(inputId="mu2", label="\u03bc2",
+                                                                           value=.2)),
+                                                   splitLayout(numericInput(inputId="sigma1", label="\u03c31",
+                                                                value=.05),
+                                                               numericInput(inputId="sigma2", label="\u03c32",
+                                                                           value=.1))),
+
                                   actionButton("action1", "Calculate"),
                                   uiOutput("n")
                          ),
+
+#Uploaded Data
+
                          tabPanel("Use Uploaded Data", strong("Choose CSV/Excel File"), tags$br(), "Please make sure the column containing the mean responses
                                              is named \"Mean.Response\" (download sample data for an example)",
 
@@ -50,17 +78,27 @@ ui <- fluidPage(
                                   downloadButton("download", "Download Sample Data"),
                                   uiOutput("ndata")
                          ))
+
+#User-selected sample size
+
              ), wellPanel("User selected sample size comparison",style = "background: #Dcecf4",
+                          conditionalPanel("input.choice == 'symm'",
                           numericInput(inputId="usern", label="n: user selected sample size",
                                        value=100)),
+                          conditionalPanel("input.choice == 'asymm'",
+                                           splitLayout(numericInput(inputId="n1", label="n1",
+                                                                    value=100),
+                                                       numericInput(inputId="n1", label="n2", value=150))),
+                          ),
+
+#Hypothesis Test comparison
+
              wellPanel("Hypothesis Test Comparison", style = "background: #Dcecf4",
-                       numericInput(inputId="sh", label="s: Posterior Standard Deviation",
-                                    value=.1),
                        numericInput(inputId="d", label="d: Minimum Detectable Difference",
                                     value=.01),
-                       numericInput(inputId="conf", label="conf: 1 - Type I error rate",
+                       numericInput(inputId="conf", label="confidence: 1 - Type I error rate",
                                     value=.95),
-                       numericInput(inputId="power", label="power: 1- Type II error rate",
+                       numericInput(inputId="power", label="power: 1 - Type II error rate",
                                     value=.80),
                        uiOutput("hn")
              )),
@@ -134,10 +172,27 @@ server <- function(input, output) {
   mu <- reactiveVal(.1)
   sigma <- reactiveVal(.05)
 
+  s1 <- reactiveVal(.1)
+  s2 <- reactiveVal(.2)
+  mu1 <- reactiveVal(.1)
+  mu2 <- reactiveVal(.2)
+  sigma1 <- reactiveVal(.05)
+  sigma2 <- reactiveVal(.1)
+
+  n <- c() #profit maximizing n
+  nh <- c() # n from hypothesis test
+
   observeEvent(input$action1,{
     s(input$s)
     mu(input$mu)
     sigma(input$sigma)
+
+    s1(input$s1)
+    s2(input$s2)
+    mu1(input$mu1)
+    mu2(input$mu2)
+    sigma1(input$sigma1)
+    sigma2(input$sigma2)
   })
 
   #Plots the big profit plot
@@ -145,14 +200,24 @@ server <- function(input, output) {
     N <- input$N
     usern <- input$usern
     nval <- seq(1, N/2)
-    profits <- sapply(nval, FUN=profit_nn, N=N, s=c(s(),s()), mu=c(mu(),mu()), sigma=c(sigma(),sigma()))
+    ifelse(input$choice == "symm",
+           profits <- sapply(nval, FUN=profit_nn, N=N, s=c(s(),s()), mu=c(mu(),mu()), sigma=c(sigma(),sigma())),
+           profits <- sapply(nval, FUN=profit_nn, N=N, s=c(s1(),s2()), mu=c(mu1(),mu2()), sigma=c(sigma1(),sigma2())))
+
     df <- data.frame(nval, profits)
 
     #Finding values to plot on the graph
+    if(input$choice == "symm") {
     nmax <- test_size_nn(input$N, s(), mu(), sigma())
     profitmax <- profit_nn(nmax, input$N, s=c(s(),s()), mu=c(mu(),mu()), sigma=c(sigma(),sigma()))
+    }
 
-    nh <- test_size_nht(input$s, input$d, input$conf, input$power, input$N)
+    else {
+    nmax <- test_size_nn(input$N, s=c(s1(),s2()), mu=c(mu1(),mu2()), sigma=c(sigma1(),sigma2()))
+    profitmax <- profit_nn(nmax, input$N, s=c(s1(),s2()), mu=c(mu1(),mu2()), sigma=c(sigma1(),sigma2()))
+    }
+
+    nh <- test_size_nht(s(), input$d, input$conf, input$power, input$N)
     nhprofit <- profit_nn(nh, input$N, s=c(input$s,input$s), mu=c(mu(),mu()), sigma=c(sigma(),sigma()))
 
     usern <- input$usern
@@ -161,7 +226,7 @@ server <- function(input, output) {
     perfectprofit <- profit_perfect_nn(mu(), sigma())
 
     ggplot (data=df, aes(x=nval, y=profits)) + geom_line() + ggtitle("Profit per Customer vs. Sample Size") +
-    xlab("Sample Size (n)") + ylab("Profit per Customer") + theme(axis.title=element_text(size=14)) + theme(axis.text=element_text(size=11)) +
+    xlab("Sample Size (n1+n2)") + ylab("Profit per Customer") + theme(axis.title=element_text(size=14)) + theme(axis.text=element_text(size=11)) +
     theme(plot.title = element_text(hjust = 0.5, face="bold", size=18)) +
     geom_point(aes(x = nmax[1], y = profitmax),
                color = "#FF0000",
@@ -200,7 +265,10 @@ server <- function(input, output) {
   #Outputs for test and roll
   output$n <- renderUI({
   N <- input$N
-  n <- test_size_nn(N, s(), mu(), sigma())
+  ifelse(input$choice == "symm",
+  n <- test_size_nn(N, s(), mu(), sigma()),
+  n <- test_size_nn(N, c(s1(),s2()), c(mu1(),mu2()), c(sigma1(),sigma2()))
+  )
   n <- round(n)
   n <- paste("n = (", toString(n[1]), ",", toString(n[2]), ")")
   h4(strong(n))
@@ -208,14 +276,19 @@ server <- function(input, output) {
 
   #Outputs for hypothesis testing
   output$hn <- renderUI({
-  s <- input$sh
   d <- input$d
   conf <- input$conf
   power <- input$power
   N <- input$N
-  nh <- test_size_nht(s, d, conf, power, N)
+  ifelse(input$choice == "symm",
+         nh <- test_size_nht(s(), d, conf, power, N),
+         nh <- test_size_nht(c(s1(), s2()), d, conf, power, N))
+
   nh <- round(nh)
-  nh <- paste("n = ", toString(nh))
+  ifelse(input$choice == "symm",
+         nh <- paste("n = (", toString(nh), ",", toString(nh), ")"),
+         nh <- paste("n = (", toString(nh), ")"))
+
   h4(strong(nh))
   })
 
@@ -257,15 +330,23 @@ server <- function(input, output) {
 
   #Outputs for plots
   output$priormRes <- renderPlot({
-  plot_prior_mean_resp_nn(mu(), sigma())
+  ifelse(input$choice == "symm",
+         plot_prior_mean_resp_nn(mu(), sigma()),
+         plot_prior_mean_resp_nn(c(mu1(),mu2()), c(sigma1(),sigma2())))
+
   })
 
   output$priorRes <- renderPlot({
-  plot_prior_resp_nn(s(), mu(), sigma())
+  ifelse(input$choice == "symm",
+         plot_prior_resp_nn(s(),mu(), sigma()),
+         plot_prior_resp_nn(c(s1(),s2()),c(mu1(),mu2()), c(sigma1(),sigma2())))
   })
 
   output$priorEff <- renderPlot({
-  plot_prior_effect_nn(mu(), sigma())
+  ifelse(input$choice == "symm",
+         plot_prior_effect_nn(mu(), sigma()),
+         plot_prior_effect_nn(c(mu1(),mu2()), c(sigma1(),sigma2())))
+  #plot_prior_effect_nn(mu(), sigma())
   })
 
   output$download <- downloadHandler(
@@ -289,7 +370,7 @@ server <- function(input, output) {
     profperf <- round(profit_perfect_nn(mu(), sigma())*input$N,2)
       n <- test_size_nn(input$N, s(), mu(), sigma())
     proftandr <- round(profit_nn(n, input$N, s(), mu(), sigma())*input$N,2)
-     nh <- test_size_nht(input$sh, input$d, input$conf, input$power, input$N)
+     nh <- test_size_nht(s(), input$d, input$conf, input$power, input$N)
     profhyp <- round(profit_nn(nh, input$N, s(), mu(), sigma())*input$N,2)
     profuser <- round(profit_nn(input$usern, input$N, s(), mu(), sigma())*input$N,2)
     notest <- mu()*input$N

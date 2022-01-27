@@ -1,5 +1,0 @@
-getwd()
-data <- read.csv("sampledata.csv")
-resp <- data[,3]
-resp
-mean(resp)
