@@ -78,8 +78,8 @@ profit_nn <- function(n, N, s, mu, sigma, log_n=FALSE) {
   if (log_n) n <- exp(n)
 
   # Catch error where priors indicate treatments are very different
-  if (n[1]>N | n[2]<5) stop("The algorithm recommends allocating almost all of the sample to treatment 1. This is probably because your priors indicate that there is a very high chance that treatment 1 performs better than treatment 2. If this is true, then you should deploy treatment 1 without an A/B test.")
-  if (n[2]>N | n[1]<5) stop("The algorithm recommends allocating almost all of the sample to treatment 2. This is probably because your priors indicate that there is a very high chance that treatment 2 performs better than treatment 1. If this is true, then you should deploy treatment 2 without an A/B test.")
+  if (n[1]>N) stop("The algorithm recommends allocating almost all of the sample to treatment 1. This is probably because your priors indicate that there is a very high chance that treatment 1 performs better than treatment 2. If this is true, then you should deploy treatment 1 without an A/B test.")
+  if (n[2]>N) stop("The algorithm recommends allocating almost all of the sample to treatment 2. This is probably because your priors indicate that there is a very high chance that treatment 2 performs better than treatment 1. If this is true, then you should deploy treatment 2 without an A/B test.")
 
   stopifnot(N >= sum(n), n[1]>0, n[2]>0, sum(sigma <= 0) == 0, sum(s <= 0) == 0)
   if (length(s) == 1) { # symmetric
