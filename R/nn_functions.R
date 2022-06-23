@@ -262,6 +262,8 @@ plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
 #' one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
 
 one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
+  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
+  stopifnot(N >= sum(n), all(n > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in profit_nn_sim() to simulate one set of potential outcomes
   m <- rnorm(K, mu, sigma) # draw a true mean for each arm
   y <- matrix(rnorm(N*K, m, s), nrow=N, ncol=K, byrow=TRUE) # N observations from each arm
@@ -323,6 +325,8 @@ one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
 #' profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=100)
 #'
 profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
+  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
+  stopifnot(N >= sum(n), all(n > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # computes the per-customer profit for test & roll with K arms
   # where response is normal with (asymmetric) normal priors
   # R is the number of simulation replications
@@ -370,6 +374,8 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
 #'
 #' @examples one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)
 one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
+  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
+  stopifnot(N >= sum(n_vals), all(n_vals > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in test_size_nn_sim() to simulate one set of potential outcomes
   # and profits for all possible equal sample sizes
 
@@ -407,6 +413,7 @@ one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
 #' @examples test_size_nn_sim(N=1000, s=.1, mu=.1, sigma=.05, K=2, R=1000)
 #'
 test_size_nn_sim <- function(N, s, mu, sigma, K=2, R=1000) {
+  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
   # computes the profit-maximizing test size for a multi-armed test & roll
   # where response is normal with normal priors (possibly asymmetric)
   # N is the size of the deployment population
