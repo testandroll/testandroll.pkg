@@ -264,7 +264,7 @@ plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
 #' one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
 
 one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
-  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
+  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu <= 0
   stopifnot(N >= sum(n), all(n > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in profit_nn_sim() to simulate one set of potential outcomes
   m <- rnorm(K, mu, sigma) # draw a true mean for each arm
