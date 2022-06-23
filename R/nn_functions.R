@@ -464,6 +464,7 @@ test_eval_nn <- function(n, N, s, mu, sigma) {
   # if length(n)=1, equal sample sizes are assumed
   # if length(s)=1 symmetric priors are assumed and only the first elements of mu and sigma are used
   stopifnot(N >= n[1] + n[2], n[1] > 0, n[2] >0, sum(s <= 0) == 0, sum(sigma <=0) == 0)
+  if (mu[1] | mu[2] <= 0 ) {warning("The mean response should be positive")}
   profit <- profit_nn(n, N, s, mu, sigma)*N
   if (length(s)==1) { # symmetric
     test <- mu[1] * (n[1] + n[2])
