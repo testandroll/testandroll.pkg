@@ -117,6 +117,7 @@ test_size_nn <- function(N, s, mu, sigma) {
   # mu is a vector of length 2 of the means of the prior on the mean response
   # sigma is a vector of length 2 of the std dev of the prior on the mean response
   # if length(s)=1 symmetric priors are assumed and only the first elements of mu and sigma are used
+  if (any(mu <= 0)) {warning("The mean response should be positive")}
   stopifnot(N>2, sum(s <= 0) == 0, sum(sigma <= 0) == 0)
   if (length(s)==1) { # symmetric
     n <- ( -3 * s[1]^2 + sqrt( 9*s[1]^4 + 4*N*s[1]^2*sigma[1]^2 ) ) / (4 * sigma[1]^2) #eq (10)
