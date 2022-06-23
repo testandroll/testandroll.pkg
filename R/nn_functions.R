@@ -23,6 +23,7 @@ test_size_nht <- function(s, d, conf=0.95, power=0.8, N=NULL) {
   # conf is 1 - rate of type I error of the null hypothesis test
   # power is 1 - rate of type II error of the null hypothesis test
   # N is the finite population. If N=NULL, then no finite population correction is used.
+  if (d <= 0) {warning("The minimum detectable difference between treatments should be positive")}
   z_alpha <- qnorm(1 - (1-conf)/2)
   z_beta <- qnorm(power)
   if(length(s) == 1) { # symmetric response variance
