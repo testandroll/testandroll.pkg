@@ -470,6 +470,7 @@ test_eval_nn <- function(n, N, s, mu, sigma) {
   # sigma is a vector of length 2 of the std dev of the prior on the mean response
   # if length(n)=1, equal sample sizes are assumed
   # if length(s)=1 symmetric priors are assumed and only the first elements of mu and sigma are used
+  if (any(mu <= 0)) {warning("The mean response should be positive")}
   stopifnot(N >= n[1] + n[2], n[1] > 0, n[2] >0, sum(s <= 0) == 0, sum(sigma <=0) == 0)
   profit <- profit_nn(n, N, s, mu, sigma)*N
   if (length(s)==1) { # symmetric
@@ -504,5 +505,4 @@ test_eval_nn <- function(n, N, s, mu, sigma) {
              #deploy_1_rate = deploy_1_rate,
              tie_rate = 0
              )
-  if (mu[1] <= 0 | mu[2] <= 0) {warning("The mean response should be positive")}
 }
