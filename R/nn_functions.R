@@ -377,7 +377,7 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
 #' @examples one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)
 one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
   if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
-  stopifnot(N >= sum(n_vals), all(n_vals > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
+  stopifnot(sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in test_size_nn_sim() to simulate one set of potential outcomes
   # and profits for all possible equal sample sizes
 
