@@ -497,5 +497,4 @@ test_eval_nn <- function(n, N, s, mu, sigma) {
              #deploy_1_rate = deploy_1_rate,
              tie_rate = 0
              )
-  if (mu[1] <= 0 | mu[2] <= 0) {warning("The mean response should be positive")}
 }
