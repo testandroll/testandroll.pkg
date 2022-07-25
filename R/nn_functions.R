@@ -1,4 +1,5 @@
 #library(doParallel)
+#registerDoParallel(cores=4) determine the number of cores to use for parallel execution (e.g., 4)
 
 #' Computes the recommended sample sizes for a null hypothesis test
 #'
