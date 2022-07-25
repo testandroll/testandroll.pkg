@@ -82,6 +82,8 @@ profit_nn <- function(n, N, s, mu, sigma, log_n=FALSE) {
   if (n[1]>N) stop("The algorithm recommends allocating almost all of the sample to treatment 1. This is probably because your priors indicate that there is a very high chance that treatment 1 performs better than treatment 2. If this is true, then you should deploy treatment 1 without an A/B test.")
   if (n[2]>N) stop("The algorithm recommends allocating almost all of the sample to treatment 2. This is probably because your priors indicate that there is a very high chance that treatment 2 performs better than treatment 1. If this is true, then you should deploy treatment 2 without an A/B test.")
 
+  if (any(mu <= 0)) {warning("The mean responses should be positive")} # mu is positive
+  
   stopifnot(N >= sum(n), n[1]>0, n[2]>0, sum(sigma <= 0) == 0, sum(s <= 0) == 0)
   if (length(s) == 1) { # symmetric
     deploy <- (N - n[1] - n[2]) * (mu[1] + (2 * sigma[1]^2) /
@@ -118,7 +120,9 @@ test_size_nn <- function(N, s, mu, sigma) {
   # mu is a vector of length 2 of the means of the prior on the mean response
   # sigma is a vector of length 2 of the std dev of the prior on the mean response
   # if length(s)=1 symmetric priors are assumed and only the first elements of mu and sigma are used
-  if (any(mu <= 0)) {warning("The mean response should be positive")}
+  
+  if (any(mu <= 0)) {warning("The mean responses should be positive")} # mu is positive
+  
   stopifnot(N>2, sum(s <= 0) == 0, sum(sigma <= 0) == 0)
   if (length(s)==1) { # symmetric
     n <- ( -3 * s[1]^2 + sqrt( 9*s[1]^4 + 4*N*s[1]^2*sigma[1]^2 ) ) / (4 * sigma[1]^2) #eq (10)
@@ -145,6 +149,8 @@ profit_perfect_nn <- function(mu, sigma){
   # computes the per-customer profit with perfect information
   # where response is normal with symmetric normal priors
   # todo: adapt to asymmetric case (closed form may not be possible)
+  
+  if (any(mu <= 0)) {warning("The mean responses should be positive")} # mu is positive
   stopifnot(sigma > 0)
   (mu + sigma/sqrt(pi)) #eq (13)
 }
@@ -264,7 +270,8 @@ plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
 #' one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
 
 one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
-  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu <= 0
+  if (any(mu <= 0)) {warning("The meansod the prior on the mean response hould be positive")} # mu is positive
+  
   stopifnot(N >= sum(n), all(n > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in profit_nn_sim() to simulate one set of potential outcomes
   m <- rnorm(K, mu, sigma) # draw a true mean for each arm
@@ -327,7 +334,7 @@ one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
 #' profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=100)
 #'
 profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
-  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
+
   stopifnot(N >= sum(n), all(n > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # computes the per-customer profit for test & roll with K arms
   # where response is normal with (asymmetric) normal priors
@@ -376,7 +383,8 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
 #'
 #' @examples one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)
 one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
-  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
+  if (any(mu <= 0)) {warning("The meansod the prior on the mean response hould be positive")} # mu is positive
+  
   stopifnot(sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in test_size_nn_sim() to simulate one set of potential outcomes
   # and profits for all possible equal sample sizes
@@ -415,7 +423,7 @@ one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
 #' @examples test_size_nn_sim(N=1000, s=.1, mu=.1, sigma=.05, K=2, R=1000)
 #'
 test_size_nn_sim <- function(N, s, mu, sigma, K=2, R=1000) {
-  if (any(mu <= 0)) {warning("The mean response should be positive")} # warning: mu > 0
+
   # computes the profit-maximizing test size for a multi-armed test & roll
   # where response is normal with normal priors (possibly asymmetric)
   # N is the size of the deployment population
@@ -472,7 +480,7 @@ test_eval_nn <- function(n, N, s, mu, sigma) {
   # sigma is a vector of length 2 of the std dev of the prior on the mean response
   # if length(n)=1, equal sample sizes are assumed
   # if length(s)=1 symmetric priors are assumed and only the first elements of mu and sigma are used
-  if (any(mu <= 0)) {warning("The mean response should be positive")}
+
   stopifnot(N >= n[1] + n[2], n[1] > 0, n[2] >0, sum(s <= 0) == 0, sum(sigma <=0) == 0)
   profit <- profit_nn(n, N, s, mu, sigma)*N
   if (length(s)==1) { # symmetric
