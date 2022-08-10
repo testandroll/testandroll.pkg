@@ -186,6 +186,8 @@ error_rate_nn <- function(n, s, sigma) {
 #'
 #' @examples #plot_prior_mean_resp_nn(mu=c(5,10), sigma=c(10,10))
 plot_prior_mean_resp_nn <- function(mu, sigma) {
+  if (any(mu <= 0)) {warning("The means of the prior on the mean response should be positive")} # mu is positive
+  
   if (length(mu)==1) {mu <- rep(mu, 2); sigma <- rep(sigma,2)}
   xlim <- c(min(mu[1] - 4*sigma[1], mu[2] - 4*sigma[2]),
             max(mu[1] + 4*sigma[1], mu[2] + 4*sigma[2]))
@@ -209,6 +211,8 @@ plot_prior_mean_resp_nn <- function(mu, sigma) {
 #'
 #' @examples plot_prior_resp_nn(s=c(10,20), mu=c(5,10), sigma=c(10,10))
 plot_prior_resp_nn <- function(s, mu, sigma) {
+  if (any(mu <= 0)) {warning("The means of the prior on the mean response should be positive")} # mu is positive
+  
   if (length(mu)==1) {mu <- rep(mu, 2); sigma <- rep(sigma,2); s <- rep(s, 2)}
   sigma_resp1 <- sqrt(sigma[1]^2 + s[1]^2)
   sigma_resp2 <- sqrt(sigma[2]^2 + s[2]^2)
@@ -234,6 +238,8 @@ plot_prior_resp_nn <- function(s, mu, sigma) {
 #'
 #' @examples plot_prior_effect_nn(mu=c(5,10), sigma=c(10,10), abs=FALSE)
 plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
+  if (any(mu <= 0)) {warning("The means of the prior on the mean response should be positive")} # mu is positive
+  
   if (length(mu)==1) {mu <- rep(mu, 2); sigma <- rep(sigma,2)}
   sigma_effect <- sqrt(sigma[1]^2 + sigma[2]^2)
   xlim <- c(mu[2] - mu[1] - 4*sigma_effect, mu[2] - mu[1] + 4*sigma_effect)
@@ -271,7 +277,7 @@ plot_prior_effect_nn <- function(mu, sigma, abs=FALSE) {
 #' one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
 
 one_rep_profit <-function(n, N, s, mu, sigma, K, TS=FALSE) {
-  if (any(mu <= 0)) {warning("The meansod the prior on the mean response hould be positive")} # mu is positive
+  if (any(mu <= 0)) {warning("The means of the priors on the mean response should be positive")} # mu is positive
   
   stopifnot(N >= sum(n), all(n > 0), sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in profit_nn_sim() to simulate one set of potential outcomes
@@ -347,6 +353,8 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
   # sigma are the std devs of the priors on the mean response (vector of length 1 or K)
   # TS is a switch for computing profit for Thompson Sampling
   # if s is length 1, then arms are assumed to be symmetric
+  if (any(mu <= 0)) {warning("The means of the priors on the mean response should be positive")} # mu is positive
+  
   if (length(s) == 1) { s <- rep(s, K); mu <- rep(mu, K); sigma <- rep(sigma, K) }
   if (length(n) == 1) n <- rep(n, K)
   stopifnot(length(s) == K, length(mu) == K, length(sigma) == K)
@@ -384,7 +392,7 @@ profit_nn_sim <- function(n, N, s, mu, sigma, K=2, TS=FALSE, R=1000) {
 #'
 #' @examples one_rep_test_size(1:(floor(10/2)-1), N=10, s=c(10,10), mu= 20, sigma=10, K=2)
 one_rep_test_size <- function(n_vals, N, s, mu, sigma, K) {
-  if (any(mu <= 0)) {warning("The meansod the prior on the mean response hould be positive")} # mu is positive
+  if (any(mu <= 0)) {warning("The means of the priors on the mean response should be positive")} # mu is positive
   
   stopifnot(sum(s <= 0) == 0, sum(sigma <=0) == 0) # input validation
   # utility function used in test_size_nn_sim() to simulate one set of potential outcomes
@@ -433,6 +441,7 @@ test_size_nn_sim <- function(N, s, mu, sigma, K=2, R=1000) {
   # mu is a K-vector of length K the means of the priors on the outcome
   # sigma is a K-vector of std devs of the priors on the mean response
   stopifnot(N > 2, sum(s <= 0) == 0, sum(sigma <= 0) == 0)
+  if (any(mu <= 0)) {warning("The means of the priors on the mean response should be positive")} # mu is positive
   if (length(s==1)) { # symmetric arms
     # n is same for all arms; solve by enumeration
     s <- rep(s, K); mu <- rep(mu, K); sigma <- rep(sigma, K)
