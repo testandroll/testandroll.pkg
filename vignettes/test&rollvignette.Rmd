@@ -242,7 +242,7 @@ Takes in parameters:
 "sigma" - standard deviations of the priors on the mean response (vector of length 1 or K)  
 "K" - number of arms (2 by default)  
 "TS" - whether or not to run Thomson sampling, 'TRUE' or 'FALSE' (FALSE by default)  
-*and returns the profits and error rates under perfect information, test & roll, and Thomson sampling under one simulation*
+*and returns the profits and error rates under perfect information, test &amp; roll, and Thomson sampling under one simulation*
 <br/>
 The function draws a true mean for each arm based off sigma and simulates N observations for each of the K arms. The profit from perfect information is calculated by picking the arms with the highest true mean.
 Test and roll profit is calculated by summing the profit from the first n observations in each arm (test stage) with the profit from the selected arm (roll stage with remainder of population). For Thomson Sampling, mu and sigma are updated with every K observations (1 from each arm). 
