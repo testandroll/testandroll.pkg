@@ -9,17 +9,17 @@ output:
 
 ## 1. Introduction
 ### 1.1 About Test &amp; Roll
-The Test and Roll Package implements the methods in the paper "Profit-maximizing a/b tests" by Elea McDonnell Feit and Ron Berman.  
+The Test &amp; Roll Package implements the methods in the paper "Profit-maximizing a/b tests" by Elea McDonnell Feit and Ron Berman.  
 *Source:*
-Feit, E. M., Berman, R. (2018). Profit-maximizing a/b tests. Available at SSRN.
+Feit, E. M. &amp; Berman, R. (2018). Profit-maximizing a/b tests. Available at SSRN.
 
-Test and Roll (tactical A/B testing) describes an experimentation process in marketing where a subset of customers are randomly assigned to a treatment and customer response data is first collected in a "test" stage. In the "roll" stage that follows, marketers deploy one treatment to all remaining customers based on the test results.<br/>  
+Test &amp; Roll (tactical A/B testing) describes an experimentation process in marketing where a subset of customers are randomly assigned to a treatment and customer response data is first collected in a "test" stage. In the "roll" stage that follows, marketers deploy one treatment to all remaining customers based on the test results.<br/>  
 Marketers often use A/B testing as a tool to compare marketing treatments in a test stage and then deploy the better-performing treatment to the remainder of the consumer population. While these tests have traditionally been analyzed using hypothesis testing, we re-frame them as an explicit trade-off between the opportunity cost of the test (where some customers receive a sub-optimal treatment) and the potential losses associated with deploying a sub-optimal treatment to the remainder of the population.<br/>  
-Profit-maximizing Test and Roll has several advantages over traditional hypothesis testing (see paper for more).  
+Profit-maximizing Test &amp; Roll has several advantages over traditional hypothesis testing (see paper for more).  
 (1) The typical significance levels (alpha) in hypothesis tests which aim to limit Type I errors have little consequence for profit, assuming no deployment costs. If the null is mistakenly rejected, but both treatments yield identical effects, the same profit will be earned regardless of which treatment is deployed. Because of the profit trade-off between test-stage learning and roll-stage earning, conservative sample sizes based on null hypothesis testing lower overall expected profit, by exposing too many people to the less effective treatment in the test.  
 (2) The population available for testing and deploying is often limited, but the recommended sample size does not take this constraint into account. In online advertising experiments where effects are often small (but profitable), the recommended sample size may be larger than the size of the population itself. Yet when the population is limited, smaller tests that will never reach statistical significance can still have substantial benefit in improving expected profit.  With profit-maximizing test and roll, improved performance is achieved because profit-maximizing tests identify the best performing
 treatment with high probability when treatment effects are large; the lost profit (regret) from errors in treatment selection is small when treatment effects are small.<br/>    
-The Test and Roll package can be used to calculate test sizes as well as resulting profits under a variety of methods (hypothesis testing, profit-maximization, and Thomson Sampling). Note that the profit-maximizing test size is substantially smaller than typically recommended for a hypothesis test, particularly when the response is noisy or when the total population is small. 
+The Test &amp; Roll package can be used to calculate test sizes as well as resulting profits under a variety of methods (hypothesis testing, profit-maximization, and Thomson Sampling). Note that the profit-maximizing test size is substantially smaller than typically recommended for a hypothesis test, particularly when the response is noisy or when the total population is small. 
 
 \newpage
 ### 1.2 Installation
@@ -64,7 +64,7 @@ sigma
 **Function purposes:**  
 **Section 2) Usage for 2-arm tests**  
 test_size_nht() - computes test sizes under hypothesis testing  
-test_size_nn() - computes profit-maximizing test sizes under test and roll   
+test_size_nn() - computes profit-maximizing test sizes under test &amp; roll   
 profit_nn() - computes profit under profit-maximizing tests  
 profit_perfect_nn() - computes profit with perfect information  
 error_rate_nn() - computes rate of incorrect deployments  
@@ -73,7 +73,7 @@ error_rate_nn() - computes rate of incorrect deployments
 **Section 3) Usage for K-arm tests (with simulation)**   
 test_size_nn_sim() - computes profit-maximizing test sizes for a multi-armed test and roll  
 one_rep_test_size() - utility function used in test_size_nn_sim() to simulate one set of potential outcomes  
-profit_nn_sim() -  computes the per-customer profit for test and roll with K arms  
+profit_nn_sim() -  computes the per-customer profit for test &amp; roll with K arms  
 one_rep_profit() - utility function used in function 'profit_nn_sim()' to simulate one set of potential outcomes  
 test_eval_nn() - provides summary statistics of a test and roll plan  
 
@@ -123,7 +123,7 @@ For the symmetric case $s_1=s_2=s$, the recommended sample size is calculated us
 
 
 ### 2.2 Computing profits and errors under different testing methods (2-arm tests)
-**profit_nn() computes the per-customer profit for test and roll with 2 arms**
+**profit_nn() computes the per-customer profit for test &amp; roll with 2 arms**
 ```{r}
 profit_nn(n=100, N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
 profit_nn(n=c(100,200), N=10000, s=.1, mu=c(.7,.5), sigma=c(.2,.2))
@@ -170,7 +170,7 @@ With symmetric normal priors, the error rate is calculated using $\frac{1}{4} - 
 
 ## 3. Usage for K-arm tests (with simulation)
 ### 3.1 Computing profit-maximizing test sizes (K-arm tests) with simulation
-**test_size_nn_sim() Computes the profit-maximizing test size and profits for a multi-armed test and roll**
+**test_size_nn_sim() Computes the profit-maximizing test size and profits for a multi-armed test &amp; roll**
 ```{r, warning=FALSE}
 test_size_nn_sim(N=1000, s=.1, mu=.1, sigma=.05, K=2, R=1000)
 ```
@@ -209,12 +209,12 @@ Then, the arm with highest posterior mean is chosen and the profit is calculated
 </br>
 
 ### 3.2 Computing profits and errors under different testing methods (K-arm tests) with simulation
-**profit_nn_sim() computes the per-customer profit for test and roll with K arms** 
+**profit_nn_sim() computes the per-customer profit for test &amp; roll with K arms** 
 ```{r}
 profit_nn_sim(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE, R=10)
 ```
 Takes in parameters:  
-"n" - sample sizes for test and roll (vector of length 1 or K)  
+"n" - sample sizes for test &amp; roll (vector of length 1 or K)  
 "N" - deployment population  
 "s" - standard deviations of the outcome (vector of length 1 or K)  
 "mu" - means of the priors on the mean response (vector of length 1 or K)  
@@ -235,26 +235,26 @@ one_rep_profit(n=c(100,100), N=1000, s=c(.1,.1), mu=c(.1,.1), sigma=c(.05,.05), 
 one_rep_profit(n=c(100,200,300), N=1000, s=c(.1,.2,.3), mu=c(.1,.2,.3), sigma=c(.01,.03,.05), K=3, TS=FALSE)
 ```
 Takes in parameters:  
-"n" - sample sizes for test and roll (vector of length 1 or K)  
+"n" - sample sizes for test &amp; roll (vector of length 1 or K)  
 "N" - deployment population  
 "s" - standard deviations of the outcome (vector of length 1 or K)  
 "mu" - means of the priors on the mean response (vector of length 1 or K)   
 "sigma" - standard deviations of the priors on the mean response (vector of length 1 or K)  
 "K" - number of arms (2 by default)  
 "TS" - whether or not to run Thomson sampling, 'TRUE' or 'FALSE' (FALSE by default)  
-*and returns the profits and error rates under perfect information, test and roll, and Thomson sampling under one simulation*
+*and returns the profits and error rates under perfect information, test &amp; roll, and Thomson sampling under one simulation*
 <br/>
 The function draws a true mean for each arm based off sigma and simulates N observations for each of the K arms. The profit from perfect information is calculated by picking the arms with the highest true mean.
 Test and roll profit is calculated by summing the profit from the first n observations in each arm (test stage) with the profit from the selected arm (roll stage with remainder of population). For Thomson Sampling, mu and sigma are updated with every K observations (1 from each arm). 
 
 <br/>
-**test_eval_nn() provides summary of a test and roll plan**
+**test_eval_nn() provides summary of a test &amp; roll plan**
 ```{r}
 test_eval_nn(n=c(100,100), N=1000, s=.1, mu=.1, sigma=.05)
 test_eval_nn(n=c(100,200), N=1000, s=c(.1,.2), mu=c(.1,.2), sigma=c(.05,.1))
 ```
 Takes in parameters:
-"n" - sample sizes for test and roll (vector of length 2)
+"n" - sample sizes for test &amp; roll (vector of length 2)
 "N" - deployment population  
 "s" - standard deviations of the outcome (vector of length 2)  
 "mu" - means of the priors on the mean response (vector of length 2)  
