@@ -1,11 +1,10 @@
 Package: testandroll.pkg
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Test &amp; Roll: An experimental design to maximize profit from A/B Tests
 Version: 0.1.0
-Author: Who wrote it
+Author: Feit, E. M., Berman, R.
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Test & Roll: Profit-Maximizing A/B Tests
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
