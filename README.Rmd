@@ -1,0 +1,82 @@
+---
+title: "README"
+author: "written by Maxine Fang &amp; Bolun Xiao"
+output:
+  html_document:
+theme: cerulean
+---
+
+<style type="text/css">
+
+body{ /* Normal  */
+      font-size: 12px;
+  }
+td {  /* Table  */
+  font-size: 8px;
+}
+h1.title {
+  font-size: 38px;
+  color: DarkRed;
+}
+h1 { /* Header 1 */
+  font-size: 28px;
+  color: DarkBlue;
+}
+h2 { /* Header 2 */
+    font-size: 22px;
+  color: DarkBlue;
+}
+h3 { /* Header 3 */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+}
+code.r{ /* Code block */
+    font-size: 12px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About Test &amp; Roll
+
+The Test &amp; Roll Package implements the methods in the paper ``Profit-maximizing a/b tests'' by Elea McDonnell Feit and Ron Berman.
+*Source:* Feit, E. M., & Berman, R. (2019). **Test &amp; Roll: Profit-Maximizing A/B Tests.** Available at SSRN.
+
+In test &amp; roll, we assume that a marketer plans to test two marketing treatments, which are labeled 1 and 2 with sample sizes of $n_1$ and $n_2$ customers. The marketer then deploys the treatment which performs better in the test to the remaining $(n - n_1 - n_2)$ customers. "Profit-Maximizing A/B tests" frame test and roll in terms of equations for profit rather than for traditional hypothesis tests.
+
+## Variable Names
+* "n": sample sizes
+* "N": total deployment population
+* "s": the known standard deviations of the outcome
+* "$\mu$: means of the priors on the response
+* "$\sigma$: standard deviations of the priors on the response
+* "K": number of arms (treatments)
+* "R": number of simulation repetitions
+* "$n_{vals}$": possible sample size values
+
+## Functionalities
+**Note that some asymmetric cases have not yet been implemented.**
+
+### Usage for 2-arm tests
+* Compute test sizes under hypothesis testing
+* Compute test sizes that maximize profit
+* Compute profit under profit-maximizing tests
+* Compute profit with perfect information
+* Compute the error rate
+
+### Usage for K-arm tests
+**Note that these tests require simulation**
+
+* Compute profit-maximizing test sizes
+* Compute profits for test and roll given test sizes
+* Compute summary statistics for test and roll plan
+
+## Visualizing prior effects on profits and mean response
+* Graph prior densities vs. response and treatment effects
