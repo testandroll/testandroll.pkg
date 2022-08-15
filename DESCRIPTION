@@ -3,9 +3,10 @@ Type: Package
 Title: Test &amp; Roll: An experimental design to maximize profit from A/B Tests
 Version: 0.1.0
 Author: Feit, E. M., Berman, R.
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: Test & Roll: Profit-Maximizing A/B Tests
-License: What license is it under?
+Maintainer: Ron Berman <ronber@wharton.upenn.edu>
+Description: A new approach to plan and analyze A/B tests with finite populations
+    for the profit-maximizing test size
+License: CC BY license
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
