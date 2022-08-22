@@ -63,7 +63,7 @@ The Test &amp; Roll package can be used to calculate test sizes as well as resul
 ### 1.2 Installation
 ```{r, message=FALSE, warning=FALSE}
 library(devtools)
-install_github('aronbolun/testandroll.pkg')
+install_github('testandroll/testandroll.pkg')
 library(testandroll.pkg)
 #Extra installations for Rmd to knit
 install.packages('doParallel', repos='http://cran.us.r-project.org')
