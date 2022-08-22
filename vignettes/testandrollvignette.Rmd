@@ -1,10 +1,10 @@
 ---
 title: "Test and Roll Package Vignette"
-subtitle: "Based off of \"Profit-maximizing a/b tests'' by Elea McDonell Feit and Ron Berman."
+subtitle: "Based off of \"Profit-Maximizing A/B tests'' by Elea McDonell Feit and Ron Berman."
 author: "Maxine Fang &amp; Bolun Xiao"
 output:
-  html_document:
   pdf_document: default
+  html_document:
   theme: cerulean
 ---
 
